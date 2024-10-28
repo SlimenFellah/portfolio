@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 *{
   scroll-behavior: smooth;
   scroll-margin-top: -2rem;
@@ -224,3 +225,40 @@
       transition: none;
     }
   }
+
+  
+  /* Custom Styles */
+.services-section {
+  background-color: #000; /* Default black background */
+}
+
+.section-title {
+  color: white;
+}
+
+.service-card {
+  background-color: white; /* White card for default black theme */
+  color: black;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px); /* Adds a slight lift on hover */
+}
+
+.dark .service-card {
+  background-color: #1a1a1a; /* Dark card for white mode */
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media(min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns layout on medium screens */
+  }
+}
