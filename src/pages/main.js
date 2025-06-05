@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, Globe, ChevronDown, Menu, X } from 'lucide-react';
+import { Typewriter } from 'react-simple-typewriter';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,7 +33,8 @@ const Portfolio = () => {
       tech: ["Next.js", "TypeScript", "TailwindCSS", "NestJS", "PostgreSQL", "PyTorch"],
       status: "Ongoing",
       github: "https://github.com/SlimenFellah/myGuide",
-      type: "AI/ML"
+      type: "Web app",
+      images: ["./assets/projects/myguide/myguide1.jpg", "./assets/projects/myguide/myguide2.jpg", "./assets/projects/myguide/myguide3.jpg", "./assets/projects/myguide/myguide4.jpg", "./assets/projects/myguide/myguide5.jpg", "./assets/projects/myguide/myguide6.jpg", "./assets/projects/myguide/myguide7.jpg", "./assets/projects/myguide/myguide8.jpg"]
     },
     {
       title: "Agrisistance",
@@ -38,14 +42,16 @@ const Portfolio = () => {
       tech: ["React", "TypeScript", "ChakraUI", "NestJS", "PostgreSQL"],
       link: "https://agrisistance.netlify.app",
       github: "#",
-      type: "AI/ML"
+      type: "Web App",
+      images: ["./assets/projects/agrisistance/agrisistance1.jpg", "./assets/projects/agrisistance/agrisistance2.jpg", "./assets/projects/agrisistance/agrisistance3.jpg", "./assets/projects/agrisistance/agrisistance4.jpg"]
     },
     {
       title: "PDFinder",
       description: "Comprehensive search engine for scientific articles with microservices architecture",
       tech: ["React", "FastAPI", "Elasticsearch", "MySQL", "Tailwind CSS"],
       github: "#",
-      type: "Web App"
+      type: "Web App",
+      images: ["/assets/projects/pdfinder/pdfinder1.jpg"]
     },
     {
       title: "Needy App",
@@ -53,7 +59,8 @@ const Portfolio = () => {
       tech: ["React", "Express.js", "MongoDB", "Tailwind CSS"],
       link: "https://needy.onrender.com",
       github: "#",
-      type: "Mobile/Web"
+      type: "Web App",
+      images: ["/assets/projects/needy/needy1.jpg", "/assets/projects/needy/needy2.jpg"]
     }
   ];
 
@@ -92,6 +99,32 @@ const Portfolio = () => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
   };
+
+
+   const [currentIndexes, setCurrentIndexes] = useState(
+    projects.map(() => 0) // one index per project
+  );
+
+  const handlePrev = (projectIndex) => {
+    setCurrentIndexes((prev) =>
+      prev.map((val, i) =>
+        i === projectIndex
+          ? (val - 1 + projects[i].images.length) % projects[i].images.length
+          : val
+      )
+    );
+  };
+
+  const handleNext = (projectIndex) => {
+    setCurrentIndexes((prev) =>
+      prev.map((val, i) =>
+        i === projectIndex
+          ? (val + 1) % projects[i].images.length
+          : val
+      )
+    );
+  };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
@@ -148,19 +181,39 @@ const Portfolio = () => {
       <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           <div className="mb-8">
-            <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-4xl font-bold">
-              SF
+            <div className="mt-24 w-64 h-64 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-1">
+              <img
+                src={require('./assets/personalPicture.jpg')}
+                alt="Personal"
+                className="w-full h-full object-cover rounded-full"
+              />
             </div>
             <h1 className="text-4xl sm:text-6xl font-bold mb-4">
               <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
                 Slimene Fellah
               </span>
             </h1>
-            <h2 className="text-xl sm:text-2xl text-white/80 mb-6">
+            {/* <h2 className="text-xl sm:text-2xl text-white/80 mb-6">
               Full Stack Developer & AI Enthusiast
+            </h2> */}
+            <h2 className="text-xl sm:text-2xl text-white/80 mb-6">
+              <Typewriter
+                words={[
+                  'Computer science student',
+                  'Full stack developer',
+                  'AI and cyber security enthusiast',
+                  'Freelancer',
+                ]}
+                loop={0} // 0 = infinite
+                cursor
+                cursorStyle="|"
+                typeSpeed={70}
+                deleteSpeed={50}
+                delaySpeed={1500}
+              />
             </h2>
             <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-              Computer Science Engineering Student specializing in web development and AI. 
+              Computer Science Engineering Student specializing in Full stack development. 
               Building scalable applications with modern technologies and machine learning integration.
             </p>
           </div>
@@ -174,9 +227,9 @@ const Portfolio = () => {
               <Mail size={20} />
               Email
             </a>
-            <a href="https://slimenefellah.vercel.app" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
+            <a href="https://drive.google.com/file/d/1sKA8N26qfJQGuPOVSGA8Iy0N2ed_Z9sF/view?usp=sharing" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
               <Globe size={20} />
-              Portfolio
+              Resume/CV
             </a>
           </div>
 
@@ -243,49 +296,76 @@ const Portfolio = () => {
       {/* Projects Section */}
       <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Featured Projects
-            </span>
-          </h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
+          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            Featured Projects
+          </span>
+        </h2>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
-              <div key={index} className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-semibold text-white">{project.title}</h3>
-                  <span className="px-3 py-1 bg-blue-600/30 text-blue-300 rounded-full text-xs">
-                    {project.type}
-                  </span>
-                </div>
-                
-                <p className="text-white/70 mb-4">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech) => (
-                    <span key={tech} className="px-2 py-1 bg-white/10 rounded text-xs">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <div key={index} className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
 
-                <div className="flex gap-4">
-                  {project.github && (
-                    <a href={project.github} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
-                      <Github size={16} />
-                      Code
-                    </a>
-                  )}
-                  {project.link && (
-                    <a href={project.link} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors">
-                      <ExternalLink size={16} />
-                      Live Demo
-                    </a>
-                  )}
-                </div>
+              {/* Image with buttons */}
+              <div className="relative mb-4">
+                <img
+                  src={project.images[currentIndexes[index]]}
+                  alt={`${project.title} screenshot`}
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+                {project.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => handlePrev(index)}
+                      className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      onClick={() => handleNext(index)}
+                      className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
               </div>
-            ))}
-          </div>
+
+              {/* Title & type */}
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-xl font-semibold text-white">{project.title}</h3>
+                <span className="px-3 py-1 bg-blue-600/30 text-blue-300 rounded-full text-xs">
+                  {project.type}
+                </span>
+              </div>
+
+              <p className="text-white/70 mb-4">{project.description}</p>
+
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.tech.map((tech) => (
+                  <span key={tech} className="px-2 py-1 bg-white/10 rounded text-xs">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex gap-4">
+                {project.github && (
+                  <a href={project.github} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+                    <Github size={16} />
+                    Code
+                  </a>
+                )}
+                {project.link && (
+                  <a href={project.link} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors">
+                    <ExternalLink size={16} />
+                    Live Demo
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
         </div>
       </section>
 
