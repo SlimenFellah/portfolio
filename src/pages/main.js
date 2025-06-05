@@ -107,8 +107,7 @@ const Portfolio = () => {
     setIsMenuOpen(false);
   };
 
-
-   const [currentIndexes, setCurrentIndexes] = useState(
+  const [currentIndexes, setCurrentIndexes] = useState(
     projects.map(() => 0) // one index per project
   );
 
@@ -131,7 +130,35 @@ const Portfolio = () => {
       )
     );
   };
+  const [lightbox, setLightbox] = useState({
+    isOpen: false,
+    projectIndex: null,
+    imageIndex: 0,
+  });
 
+  function openLightbox(projectIndex, imageIndex) {
+  setLightbox({ isOpen: true, projectIndex, imageIndex });
+}
+
+  function closeLightbox() {
+    setLightbox({ isOpen: false, projectIndex: null, imageIndex: 0 });
+  }
+
+  function nextLightboxImage() {
+    const images = projects[lightbox.projectIndex].images;
+    setLightbox((prev) => ({
+      ...prev,
+      imageIndex: (prev.imageIndex + 1) % images.length,
+    }));
+  }
+
+  function prevLightboxImage() {
+    const images = projects[lightbox.projectIndex].images;
+    setLightbox((prev) => ({
+      ...prev,
+      imageIndex: (prev.imageIndex - 1 + images.length) % images.length,
+    }));
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
@@ -253,71 +280,69 @@ const Portfolio = () => {
 
       {/* About Section */}
       <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-12">
             <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               About Me
             </span>
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            {/* Education & Experience */}
-            <div>
-              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2 text-white">
-                <GraduationCap className="text-blue-400" size={20} />
-                Education & Experience
-              </h3>
-              <div className="space-y-5 text-white/80">
-                <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                  <h4 className="font-semibold text-white flex items-center gap-2">
-                    <GraduationCap size={16} className="text-cyan-400" />
-                    Computer Science Engineering
-                  </h4>
-                  <p className="text-sm mt-1">ESI (ex-INI), Algiers • 2021–Present</p>
-                </div>
-                <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                  <h4 className="font-semibold text-white flex items-center gap-2">
-                    <Briefcase size={16} className="text-cyan-400" />
-                    Freelance Web Developer
-                  </h4>
-                  <p className="text-sm mt-1">Upwork Inc. • Jan 2024–Present</p>
-                </div>
-                <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                  <h4 className="font-semibold text-white flex items-center gap-2">
-                    <FlaskConical size={16} className="text-cyan-400" />
-                    Research Intern
-                  </h4>
-                  <p className="text-sm mt-1">NYU Abu Dhabi • Jul–Oct 2024</p>
-                </div>
+          {/* Education & Experience */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-semibold mb-6 flex items-center justify-center gap-2 text-white">
+              <GraduationCap className="text-blue-400" size={20} />
+              Education & Experience
+            </h3>
+            <div className="space-y-5 text-white/80">
+              <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                <h4 className="font-semibold text-white flex items-center justify-center gap-2">
+                  <GraduationCap size={16} className="text-cyan-400" />
+                  Computer Science Engineering
+                </h4>
+                <p className="text-sm mt-1">ESI (ex-INI), Algiers • 2021–Present</p>
+              </div>
+              <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                <h4 className="font-semibold text-white flex items-center justify-center gap-2">
+                  <Briefcase size={16} className="text-cyan-400" />
+                  Freelance Web Developer
+                </h4>
+                <p className="text-sm mt-1">Upwork Inc. • Jan 2024–Present</p>
+              </div>
+              <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                <h4 className="font-semibold text-white flex items-center justify-center gap-2">
+                  <FlaskConical size={16} className="text-cyan-400" />
+                  Research Intern
+                </h4>
+                <p className="text-sm mt-1">NYU Abu Dhabi • Jul–Oct 2024</p>
               </div>
             </div>
+          </div>
 
-            {/* Technical Skills */}
-            <div>
-              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2 text-white">
-                <Cpu className="text-blue-400" size={20} />
-                Technical Skills
-              </h3>
-              <div className="space-y-5">
-                {Object.entries(skills).map(([category, techs]) => (
-                  <div key={category} className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                    <h4 className="font-semibold text-blue-400 mb-3 flex items-center gap-2">
-                      {skillIcons[category] || <Code2 size={16} className="text-blue-400" />}
-                      {category}
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {techs.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 bg-white/10 text-white/90 rounded-full text-sm hover:bg-white/20 transition"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+          {/* Technical Skills */}
+          <div>
+            <h3 className="text-2xl font-semibold mb-6 flex items-center justify-center gap-2 text-white">
+              <Cpu className="text-blue-400" size={20} />
+              Technical Skills
+            </h3>
+            <div className="space-y-5">
+              {Object.entries(skills).map(([category, techs]) => (
+                <div key={category} className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                  <h4 className="font-semibold text-blue-400 mb-3 flex items-center justify-center gap-2">
+                    {skillIcons[category] || <Code2 size={16} className="text-blue-400" />}
+                    {category}
+                  </h4>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {techs.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 bg-white/10 text-white/90 rounded-full text-sm hover:bg-white/20 transition"
+                      >
+                        {tech}
+                      </span>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -339,9 +364,10 @@ const Portfolio = () => {
               {/* Image with buttons */}
               <div className="relative mb-4">
                 <img
+                  onClick={() => openLightbox(index, 0)}
                   src={project.images[currentIndexes[index]]}
                   alt={`${project.title} screenshot`}
-                  className="w-full h-48 object-cover rounded-lg"
+                  className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition"
                 />
                 {project.images.length > 1 && (
                   <>
@@ -397,6 +423,37 @@ const Portfolio = () => {
           ))}
         </div>
         </div>
+        {lightbox.isOpen && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 text-white text-2xl cursor-pointer"
+          >
+            ✕
+          </button>
+
+          <button
+            onClick={prevLightboxImage}
+            className="absolute left-4 text-white text-4xl cursor-pointer"
+          >
+            ‹
+          </button>
+
+          <img
+            src={projects[lightbox.projectIndex].images[lightbox.imageIndex]}
+            alt="Project preview"
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-xl shadow-lg"
+          />
+
+          <button
+            onClick={nextLightboxImage}
+            className="absolute right-4 text-white text-4xl cursor-pointer"
+          >
+            ›
+          </button>
+        </div>
+      )}
+
       </section>
 
       {/* Experience Section */}
