@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, Globe, ChevronDown, Menu, X } from 'lucide-react';
+import { Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Linkedin, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X } from 'lucide-react';
 import { Typewriter } from 'react-simple-typewriter';
+
+const skillIcons = {
+  "Frontend": <Code2 size={16} className="text-blue-400" />,
+  "Backend": <Database size={16} className="text-blue-400" />,
+  "AI/ML": <Cpu size={16} className="text-blue-400" />,
+  "DevOps": <Layers size={16} className="text-blue-400" />,
+};
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('hero');
@@ -34,7 +41,7 @@ const Portfolio = () => {
       status: "Ongoing",
       github: "https://github.com/SlimenFellah/myGuide",
       type: "Web app",
-      images: ["./assets/projects/myguide/myguide1.jpg", "./assets/projects/myguide/myguide2.jpg", "./assets/projects/myguide/myguide3.jpg", "./assets/projects/myguide/myguide4.jpg", "./assets/projects/myguide/myguide5.jpg", "./assets/projects/myguide/myguide6.jpg", "./assets/projects/myguide/myguide7.jpg", "./assets/projects/myguide/myguide8.jpg"]
+      images: ["/assets/projects/myguide/myguide1.jpg", "/assets/projects/myguide/myguide2.jpg", "/assets/projects/myguide/myguide3.jpg", "/assets/projects/myguide/myguide4.jpg", "/assets/projects/myguide/myguide5.jpg", "/assets/projects/myguide/myguide6.jpg", "/assets/projects/myguide/myguide7.jpg", "/assets/projects/myguide/myguide8.jpg"]
     },
     {
       title: "Agrisistance",
@@ -43,7 +50,7 @@ const Portfolio = () => {
       link: "https://agrisistance.netlify.app",
       github: "#",
       type: "Web App",
-      images: ["./assets/projects/agrisistance/agrisistance1.jpg", "./assets/projects/agrisistance/agrisistance2.jpg", "./assets/projects/agrisistance/agrisistance3.jpg", "./assets/projects/agrisistance/agrisistance4.jpg"]
+      images: ["/assets/projects/agrisistance/agrisistance1.jpg", "/assets/projects/agrisistance/agrisistance2.jpg", "/assets/projects/agrisistance/agrisistance3.jpg", "/assets/projects/agrisistance/agrisistance4.jpg"]
     },
     {
       title: "PDFinder",
@@ -136,31 +143,31 @@ const Portfolio = () => {
               Slimene Fellah
             </div>
             
-            {/* Desktop Menu */}
+            {/* /* Desktop Menu */}
             <div className="hidden md:flex space-x-8">
               {['About', 'Projects', 'Experience', 'Achievements', 'Contact'].map((item) => (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(item.toLowerCase())}
-                  className={`transition-colors duration-200 hover:text-blue-400 ${
-                    activeSection === item.toLowerCase() ? 'text-blue-400' : 'text-white/80'
-                  }`}
-                >
-                  {item}
-                </button>
+              <button
+                key={item}
+                onClick={() => scrollToSection(item.toLowerCase())}
+                className={`transition-colors duration-200 hover:text-blue-400 hover:cursor-pointer ${
+                activeSection === item.toLowerCase() ? 'text-blue-400' : 'text-white/80'
+                }`}
+              >
+                {item}
+              </button>
               ))}
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden"
+              className="md:hidden hover:cursor-pointer"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-          </div>
+            </div>
 
-          {/* Mobile Menu */}
+            {/* Mobile Menu */}
           {isMenuOpen && (
             <div className="md:hidden py-4 space-y-2">
               {['About', 'Projects', 'Experience', 'Achievements', 'Contact'].map((item) => (
@@ -183,7 +190,7 @@ const Portfolio = () => {
           <div className="mb-8">
             <div className="mt-24 w-64 h-64 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-1">
               <img
-                src={require('./assets/personalPicture.jpg')}
+                src="/assets/personalPicture.jpg"
                 alt="Personal"
                 className="w-full h-full object-cover rounded-full"
               />
@@ -252,35 +259,58 @@ const Portfolio = () => {
               About Me
             </span>
           </h2>
-          
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            {/* Education & Experience */}
             <div>
-              <h3 className="text-2xl font-semibold mb-4">Education & Experience</h3>
-              <div className="space-y-4 text-white/80">
-                <div className="p-4 bg-white/5 rounded-lg border border-white/10">
-                  <h4 className="font-semibold text-white">Computer Science Engineering</h4>
-                  <p className="text-sm">ESI (ex-INI), Algiers • 2021-Present</p>
+              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2 text-white">
+                <GraduationCap className="text-blue-400" size={20} />
+                Education & Experience
+              </h3>
+              <div className="space-y-5 text-white/80">
+                <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                  <h4 className="font-semibold text-white flex items-center gap-2">
+                    <GraduationCap size={16} className="text-cyan-400" />
+                    Computer Science Engineering
+                  </h4>
+                  <p className="text-sm mt-1">ESI (ex-INI), Algiers • 2021–Present</p>
                 </div>
-                <div className="p-4 bg-white/5 rounded-lg border border-white/10">
-                  <h4 className="font-semibold text-white">Freelance Web Developer</h4>
-                  <p className="text-sm">Upwork Inc. • Jan 2024-Present</p>
+                <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                  <h4 className="font-semibold text-white flex items-center gap-2">
+                    <Briefcase size={16} className="text-cyan-400" />
+                    Freelance Web Developer
+                  </h4>
+                  <p className="text-sm mt-1">Upwork Inc. • Jan 2024–Present</p>
                 </div>
-                <div className="p-4 bg-white/5 rounded-lg border border-white/10">
-                  <h4 className="font-semibold text-white">Research Intern</h4>
-                  <p className="text-sm">NYU Abu Dhabi • Jul-Oct 2024</p>
+                <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                  <h4 className="font-semibold text-white flex items-center gap-2">
+                    <FlaskConical size={16} className="text-cyan-400" />
+                    Research Intern
+                  </h4>
+                  <p className="text-sm mt-1">NYU Abu Dhabi • Jul–Oct 2024</p>
                 </div>
               </div>
             </div>
 
+            {/* Technical Skills */}
             <div>
-              <h3 className="text-2xl font-semibold mb-4">Technical Skills</h3>
-              <div className="space-y-4">
+              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2 text-white">
+                <Cpu className="text-blue-400" size={20} />
+                Technical Skills
+              </h3>
+              <div className="space-y-5">
                 {Object.entries(skills).map(([category, techs]) => (
-                  <div key={category} className="p-4 bg-white/5 rounded-lg border border-white/10">
-                    <h4 className="font-semibold text-blue-400 mb-2">{category}</h4>
+                  <div key={category} className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                    <h4 className="font-semibold text-blue-400 mb-3 flex items-center gap-2">
+                      {skillIcons[category] || <Code2 size={16} className="text-blue-400" />}
+                      {category}
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       {techs.map((tech) => (
-                        <span key={tech} className="px-3 py-1 bg-white/10 rounded-full text-sm">
+                        <span
+                          key={tech}
+                          className="px-3 py-1 bg-white/10 text-white/90 rounded-full text-sm hover:bg-white/20 transition"
+                        >
                           {tech}
                         </span>
                       ))}
@@ -370,7 +400,7 @@ const Portfolio = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
             <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
@@ -378,42 +408,72 @@ const Portfolio = () => {
             </span>
           </h2>
 
-          <div className="space-y-8">
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-              <h3 className="text-xl font-semibold mb-2">Community Involvement</h3>
-              <div className="grid md:grid-cols-3 gap-4 text-sm">
-                <div>
-                  <h4 className="font-semibold text-blue-400">GDG Algiers</h4>
-                  <p className="text-white/70">Development Department Member</p>
+          <div className="space-y-10">
+            {/* Community Involvement */}
+            <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-sm">
+              <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-white">
+                <Users className="text-blue-400" size={20} />
+                Community Involvement
+              </h3>
+
+              <div className="grid md:grid-cols-3 gap-6 text-sm text-white/80">
+                <div className="bg-white/10 p-4 rounded-lg space-y-1 h-full">
+                  <h4 className="font-semibold text-blue-400 flex items-center gap-1">
+                    <Globe size={14} />
+                    GDG Algiers
+                  </h4>
+                  <p>Development Department Member</p>
                   <p className="text-white/60">Event websites, training, hackathons</p>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-blue-400">School of AI Algiers</h4>
-                  <p className="text-white/70">Technical Department Member</p>
+
+                <div className="bg-white/10 p-4 rounded-lg space-y-1 h-full">
+                  <h4 className="font-semibold text-blue-400 flex items-center gap-1">
+                    <Terminal size={14} />
+                    School of AI Algiers
+                  </h4>
+                  <p>Technical Department Member</p>
                   <p className="text-white/60">Mentorship and community support</p>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-blue-400">Shellmates Club</h4>
-                  <p className="text-white/70">Cybersecurity Contributor</p>
+
+                <div className="bg-white/10 p-4 rounded-lg space-y-1 h-full">
+                  <h4 className="font-semibold text-blue-400 flex items-center gap-1">
+                    <Shield size={14} />
+                    Shellmates Club
+                  </h4>
+                  <p>Cybersecurity Contributor</p>
                   <p className="text-white/60">CTF challenges and workshops</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-              <h3 className="text-xl font-semibold mb-4">Workshops & Talks</h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between items-center">
-                  <span className="text-white">Version Control Workshop (Git & GitHub)</span>
-                  <span className="text-white/60">Aug 2024</span>
+            {/* Workshops & Talks */}
+            <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-sm">
+              <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-white">
+                <Mic className="text-blue-400" size={20} />
+                Workshops & Talks
+              </h3>
+
+              <div className="divide-y divide-white/10 text-sm text-white/80">
+                <div className="flex justify-between py-3">
+                  <span className="flex items-center gap-2">
+                    <GitBranch size={14} />
+                    Version Control Workshop (Git & GitHub)
+                  </span>
+                  <span className="text-white/50">Aug 2024</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white">Regression Algorithms Workshop</span>
-                  <span className="text-white/60">Feb 2024</span>
+                <div className="flex justify-between py-3">
+                  <span className="flex items-center gap-2">
+                    <Presentation size={14} />
+                    Regression Algorithms Workshop
+                  </span>
+                  <span className="text-white/50">Feb 2024</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white">Multi-disciplinary Project Guide</span>
-                  <span className="text-white/60">Dec 2023</span>
+                <div className="flex justify-between py-3">
+                  <span className="flex items-center gap-2">
+                    <CalendarCheck size={14} />
+                    Multi-disciplinary Project Guide
+                  </span>
+                  <span className="text-white/50">Dec 2023</span>
                 </div>
               </div>
             </div>
