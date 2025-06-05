@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Linkedin, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X } from 'lucide-react';
+import { Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Linkedin, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X, FileUser } from 'lucide-react';
 import { Typewriter } from 'react-simple-typewriter';
 
 const skillIcons = {
   "Frontend": <Code2 size={16} className="text-blue-400" />,
-  "Backend": <Database size={16} className="text-blue-400" />,
+  "Backend": <Code2 size={16} className="text-blue-400" />,
+  "Database": <Database size={16} className="text-blue-400" />,
   "AI/ML": <Cpu size={16} className="text-blue-400" />,
-  "DevOps": <Layers size={16} className="text-blue-400" />,
+  "Tools": <Layers size={16} className="text-blue-400" />,
 };
 
 const Portfolio = () => {
@@ -39,7 +40,7 @@ const Portfolio = () => {
       description: "AI-powered web app for personalized travel recommendations in Algeria with chatbot integration",
       tech: ["Next.js", "TypeScript", "TailwindCSS", "NestJS", "PostgreSQL", "PyTorch"],
       status: "Ongoing",
-      github: "https://github.com/SlimenFellah/myGuide",
+      github: "https://github.com/orgs/myGuideSlimene/repositories",
       type: "Web app",
       images: ["/assets/projects/myguide/myguide1.jpg", "/assets/projects/myguide/myguide2.jpg", "/assets/projects/myguide/myguide3.jpg", "/assets/projects/myguide/myguide4.jpg", "/assets/projects/myguide/myguide5.jpg", "/assets/projects/myguide/myguide6.jpg", "/assets/projects/myguide/myguide7.jpg", "/assets/projects/myguide/myguide8.jpg"]
     },
@@ -47,8 +48,8 @@ const Portfolio = () => {
       title: "Agrisistance",
       description: "AI-driven application helping African farmers optimize land use and increase crop productivity",
       tech: ["React", "TypeScript", "ChakraUI", "NestJS", "PostgreSQL"],
-      link: "https://agrisistance.netlify.app",
-      github: "#",
+      link: "https://agrisistance.netlify.app/",
+      github: "https://github.com/orgs/AGRISISTANCE/repositories",
       type: "Web App",
       images: ["/assets/projects/agrisistance/agrisistance1.jpg", "/assets/projects/agrisistance/agrisistance2.jpg", "/assets/projects/agrisistance/agrisistance3.jpg", "/assets/projects/agrisistance/agrisistance4.jpg"]
     },
@@ -56,7 +57,7 @@ const Portfolio = () => {
       title: "PDFinder",
       description: "Comprehensive search engine for scientific articles with microservices architecture",
       tech: ["React", "FastAPI", "Elasticsearch", "MySQL", "Tailwind CSS"],
-      github: "#",
+      github: "https://github.com/orgs/TpIgl2023/repositories",
       type: "Web App",
       images: ["/assets/projects/pdfinder/pdfinder1.jpg"]
     },
@@ -64,43 +65,44 @@ const Portfolio = () => {
       title: "Needy App",
       description: "Charity mobile application with complementary web platform for finding essential necessities",
       tech: ["React", "Express.js", "MongoDB", "Tailwind CSS"],
-      link: "https://needy.onrender.com",
-      github: "#",
+      link: "https://needy.onrender.com/",
+      github: "https://github.com/SlimenFellah/needy",
       type: "Web App",
       images: ["/assets/projects/needy/needy1.jpg", "/assets/projects/needy/needy2.jpg"]
     }
   ];
 
   const achievements = [
-    {
-      title: "Winner - Yassir AI Hackathon",
-      date: "Dec 2024",
-      description: "1st place developing AI-powered driver assignment optimization system"
-    },
-    {
-      title: "Semifinalist - A2SV AI Hackathon",
-      date: "Jul-Oct 2024",
-      description: "Africa's biggest AI hackathon with 'Agrisistance' project"
-    },
-    {
-      title: "2nd Place - GameCraft Gamejam",
-      date: "Aug 2024",
-      description: "Created 'Catsu' - puzzle-solving 2D game with time-travel mechanics"
-    },
-    {
-      title: "3rd Place - InnovDigital Competition",
-      date: "Apr 2024",
-      description: "Electronic Document Management Systems optimization solution"
-    }
-  ];
+  {
+    title: "Winner – Yassir AI Hackathon",
+    date: "Dec 2024",
+    description: "Achieved 1st place by building an AI-driven system that optimizes driver-task assignments in real time, enhancing fleet efficiency and reducing response time."
+  },
+  {
+    title: "Semifinalist – A2SV AI Hackathon",
+    date: "Jul–Oct 2024",
+    description: "Selected among Africa’s top AI talents with the project 'Agrisistance' — an AI-based solution empowering farmers through land optimization and crop yield prediction."
+  },
+  {
+    title: "2nd Place – GameCraft Game Jam",
+    date: "Aug 2024",
+    description: "Developed 'Catsu', a 2D puzzle-platformer game featuring innovative time-travel mechanics, designed and built within a limited time frame."
+  },
+  {
+    title: "3rd Place – InnovDigital Competition",
+    date: "Apr 2024",
+    description: "Recognized for proposing a smart Electronic Document Management System (EDMS) solution to improve workflow automation and digital archiving efficiency."
+  }
+];
 
-  const skills = {
-    "Frontend": ["React.js/TS", "Next.js", "TailwindCSS", "Chakra UI"],
-    "Backend": ["Node.js", "Express", "NestJS", "FastAPI"],
-    "Database": ["PostgreSQL", "MongoDB", "MySQL", "Prisma ORM"],
-    "AI/ML": ["PyTorch", "Machine Learning", "Deep Learning", "MLIR"],
-    "Tools": ["Git", "Docker", "GitHub Actions", "Elasticsearch"]
-  };
+ const skills = {
+  "Frontend": ["React.js", "TypeScript", "Next.js", "Tailwind CSS", "Chakra UI"],
+  "Backend": ["Node.js", "Express.js", "NestJS", "FastAPI", "Flask"],
+  "Database": ["PostgreSQL", "MongoDB", "MySQL", "SQLite", "Prisma ORM"],
+  "AI/ML": ["PyTorch", "scikit-learn", "TensorFlow", "OpenAI API", "Hugging Face"],
+  "Tools": ["Git", "Docker", "GitHub Actions", "CI/CD"]
+};
+
 
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
@@ -138,7 +140,7 @@ const Portfolio = () => {
 
   function openLightbox(projectIndex, imageIndex) {
   setLightbox({ isOpen: true, projectIndex, imageIndex });
-}
+  }
 
   function closeLightbox() {
     setLightbox({ isOpen: false, projectIndex: null, imageIndex: 0 });
@@ -227,16 +229,13 @@ const Portfolio = () => {
                 Slimene Fellah
               </span>
             </h1>
-            {/* <h2 className="text-xl sm:text-2xl text-white/80 mb-6">
-              Full Stack Developer & AI Enthusiast
-            </h2> */}
             <h2 className="text-xl sm:text-2xl text-white/80 mb-6">
               <Typewriter
                 words={[
-                  'Computer science student',
-                  'Full stack developer',
-                  'AI and cyber security enthusiast',
-                  'Freelancer',
+                  'Computer science student ...',
+                  'Full stack developer ...',
+                  'AI and cyber security enthusiast ...',
+                  'Freelancer ...',
                 ]}
                 loop={0} // 0 = infinite
                 cursor
@@ -262,8 +261,8 @@ const Portfolio = () => {
               Email
             </a>
             <a href="https://drive.google.com/file/d/1sKA8N26qfJQGuPOVSGA8Iy0N2ed_Z9sF/view?usp=sharing" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
-              <Globe size={20} />
-              Resume/CV
+              <FileUser size={20} />
+              Download Resume
             </a>
           </div>
 
@@ -373,13 +372,13 @@ const Portfolio = () => {
                   <>
                     <button
                       onClick={() => handlePrev(index)}
-                      className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
+                      className="cursor-pointer absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
                     >
                       ‹
                     </button>
                     <button
                       onClick={() => handleNext(index)}
-                      className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
+                      className="cursor-pointer absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
                     >
                       ›
                     </button>
@@ -407,13 +406,13 @@ const Portfolio = () => {
 
               <div className="flex gap-4">
                 {project.github && (
-                  <a href={project.github} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+                  <a href={project.github} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer">
                     <Github size={16} />
                     Code
                   </a>
                 )}
                 {project.link && (
-                  <a href={project.link} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors">
+                  <a href={project.link} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer">
                     <ExternalLink size={16} />
                     Live Demo
                   </a>
@@ -465,72 +464,72 @@ const Portfolio = () => {
             </span>
           </h2>
 
-          <div className="space-y-10">
+          <div className="space-y-12">
             {/* Community Involvement */}
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-sm">
-              <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-white">
-                <Users className="text-blue-400" size={20} />
+              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-white">
+                <Users className="text-blue-400" size={24} />
                 Community Involvement
               </h3>
 
               <div className="grid md:grid-cols-3 gap-6 text-sm text-white/80">
-                <div className="bg-white/10 p-4 rounded-lg space-y-1 h-full">
-                  <h4 className="font-semibold text-blue-400 flex items-center gap-1">
-                    <Globe size={14} />
+                <div className="bg-white/10 hover:bg-white/20 transition rounded-lg p-4 space-y-2 h-full">
+                  <h4 className="font-semibold text-blue-400 flex items-center gap-2 text-base">
+                    <Globe size={16} />
                     GDG Algiers
                   </h4>
-                  <p>Development Department Member</p>
-                  <p className="text-white/60">Event websites, training, hackathons</p>
+                  <p className="text-white">Dev Team Member</p>
+                  <p className="text-white/60 text-xs">Built event websites and contributed to hackathon infrastructure and technical training.</p>
                 </div>
 
-                <div className="bg-white/10 p-4 rounded-lg space-y-1 h-full">
-                  <h4 className="font-semibold text-blue-400 flex items-center gap-1">
-                    <Terminal size={14} />
+                <div className="bg-white/10 hover:bg-white/20 transition rounded-lg p-4 space-y-2 h-full">
+                  <h4 className="font-semibold text-blue-400 flex items-center gap-2 text-base">
+                    <Terminal size={16} />
                     School of AI Algiers
                   </h4>
-                  <p>Technical Department Member</p>
-                  <p className="text-white/60">Mentorship and community support</p>
+                  <p className="text-white">Tech Contributor</p>
+                  <p className="text-white/60 text-xs">Led AI workshops, mentored newcomers & participants, and supported local AI learning initiatives.</p>
                 </div>
 
-                <div className="bg-white/10 p-4 rounded-lg space-y-1 h-full">
-                  <h4 className="font-semibold text-blue-400 flex items-center gap-1">
-                    <Shield size={14} />
+                <div className="bg-white/10 hover:bg-white/20 transition rounded-lg p-4 space-y-2 h-full">
+                  <h4 className="font-semibold text-blue-400 flex items-center gap-2 text-base">
+                    <Shield size={16} />
                     Shellmates Club
                   </h4>
-                  <p>Cybersecurity Contributor</p>
-                  <p className="text-white/60">CTF challenges and workshops</p>
+                  <p className="text-white">Cybersecurity Contributor</p>
+                  <p className="text-white/60 text-xs">Authored CTF challenges, conducted practical workshops and trainings.</p>
                 </div>
               </div>
             </div>
 
             {/* Workshops & Talks */}
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-sm">
-              <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-white">
-                <Mic className="text-blue-400" size={20} />
+              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-white">
+                <Mic className="text-blue-400" size={24} />
                 Workshops & Talks
               </h3>
 
               <div className="divide-y divide-white/10 text-sm text-white/80">
-                <div className="flex justify-between py-3">
-                  <span className="flex items-center gap-2">
-                    <GitBranch size={14} />
-                    Version Control Workshop (Git & GitHub)
-                  </span>
-                  <span className="text-white/50">Aug 2024</span>
+                <div className="flex justify-between items-center py-3">
+                  <div className="flex items-center gap-3 text-white">
+                    <GitBranch size={16} className="text-blue-300" />
+                    <span className="font-medium">Version Control with Git & GitHub</span>
+                  </div>
+                  <span className="text-white/50 text-xs">Aug 2024</span>
                 </div>
-                <div className="flex justify-between py-3">
-                  <span className="flex items-center gap-2">
-                    <Presentation size={14} />
-                    Regression Algorithms Workshop
-                  </span>
-                  <span className="text-white/50">Feb 2024</span>
+                <div className="flex justify-between items-center py-3">
+                  <div className="flex items-center gap-3 text-white">
+                    <Presentation size={16} className="text-blue-300" />
+                    <span className="font-medium">Regression Algorithms in Practice</span>
+                  </div>
+                  <span className="text-white/50 text-xs">Feb 2024</span>
                 </div>
-                <div className="flex justify-between py-3">
-                  <span className="flex items-center gap-2">
-                    <CalendarCheck size={14} />
-                    Multi-disciplinary Project Guide
-                  </span>
-                  <span className="text-white/50">Dec 2023</span>
+                <div className="flex justify-between items-center py-3">
+                  <div className="flex items-center gap-3 text-white">
+                    <CalendarCheck size={16} className="text-blue-300" />
+                    <span className="font-medium">Project Mentorship Guide</span>
+                  </div>
+                  <span className="text-white/50 text-xs">Dec 2023</span>
                 </div>
               </div>
             </div>
@@ -549,9 +548,14 @@ const Portfolio = () => {
 
           <div className="grid md:grid-cols-2 gap-6">
             {achievements.map((achievement, index) => (
-              <div key={index} className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-xl p-6 border border-yellow-500/20 hover:scale-105 transition-transform duration-300">
+              <div
+                key={index}
+                className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-xl p-6 border border-yellow-500/20 hover:scale-105 transition-transform duration-300"
+              >
                 <div className="flex items-start gap-4">
-                  <Award className="text-yellow-400 mt-1" size={24} />
+                  <div className="w-8 h-8 flex items-center justify-center text-yellow-400">
+                    <Award size={24} />
+                  </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">{achievement.title}</h3>
                     <div className="flex items-center gap-2 text-yellow-400 text-sm mb-2">
@@ -593,10 +597,10 @@ const Portfolio = () => {
               <p className="text-white/70 text-sm">@SlimenFellah</p>
             </a>
 
-            <a href="https://slimenefellah.vercel.app" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-              <Globe className="mx-auto mb-4 text-blue-400" size={32} />
-              <h3 className="font-semibold mb-2">Portfolio</h3>
-              <p className="text-white/70 text-sm">slimenefellah.vercel.app</p>
+            <a href="https://drive.google.com/file/d/1aEEnkynjFdcL7v_p5bXIiNhGgIV94FQj/view?usp=sharing" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
+              <FileUser className="mx-auto mb-4 text-blue-400" size={32} />
+              <h3 className="font-semibold mb-2">Resume</h3>
+              <p className="text-white/70 text-sm">Download Resume</p>
             </a>
           </div>
 
