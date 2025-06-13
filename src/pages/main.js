@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Linkedin, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X, FileUser } from 'lucide-react';
 import { Typewriter } from 'react-simple-typewriter';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const skillIcons = {
   "Frontend": <Code2 size={16} className="text-blue-400" />,
@@ -13,7 +15,21 @@ const skillIcons = {
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const email = "fellah.slimene@gmail.com";
 
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    // Open default mail client
+    window.location.href = `mailto:${email}`;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(email).then(() => {
+      toast.success("Email copied to clipboard!");
+    }).catch(() => {
+      toast.error("Failed to copy email.");
+    });
+  };
 
 
   useEffect(() => {
@@ -166,6 +182,7 @@ const Portfolio = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-black/20 backdrop-blur-md border-b border-white/10 z-50">
+        <ToastContainer position="top-center" autoClose={2000} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
@@ -256,11 +273,18 @@ const Portfolio = () => {
               <Github size={20} />
               GitHub
             </a>
-            <a href="mailto:fellah.slimene@gmail.com" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
+            {/* <a href="mailto:fellah.slimene@gmail.com" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
               <Mail size={20} />
               Email
-            </a>
-            <a href="https://drive.google.com/file/d/1sKA8N26qfJQGuPOVSGA8Iy0N2ed_Z9sF/view?usp=sharing" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
+            </a> */}
+            <button
+              onClick={handleClick}
+              className="flex items-center gap-2 cursor-pointer bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105"
+            >
+              <Mail size={20} />
+              Email
+            </button>
+            <a href="https://drive.google.com/file/d/1aEEnkynjFdcL7v_p5bXIiNhGgIV94FQj/view?usp=sharing" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
               <FileUser size={20} />
               Download Resume
             </a>
