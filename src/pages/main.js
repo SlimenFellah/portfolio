@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Linkedin, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X, FileUser } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X, FileUser  } from 'lucide-react';
 import { Typewriter } from 'react-simple-typewriter';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -603,7 +603,7 @@ const Portfolio = () => {
               Let's Connect
             </span>
           </h2>
-          
+
           <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto">
             I'm always open to discussing new opportunities, collaborations, or just having a chat about technology and innovation.
           </p>
@@ -628,12 +628,25 @@ const Portfolio = () => {
             </a>
           </div>
 
+          {/* Calendly CTA Button */}
+          <div className="mb-12 flex justify-center">
+            <a
+              href="https://calendly.com/fellah-slimene/meet"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex justify-center items-center bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold px-12 py-4 rounded-full shadow-lg cursor-pointer transition-all duration-300 hover:from-blue-600 hover:to-cyan-600 hover:scale-105 hover:shadow-xl"
+            >
+              &nbsp; &nbsp; &nbsp; Book a Meeting &nbsp; &nbsp; &nbsp;  
+            </a>
+          </div>
+
           <div className="flex items-center justify-center gap-2 text-white/60">
             <MapPin size={16} />
             <span>Based in Algiers, Algeria</span>
           </div>
         </div>
       </section>
+
 
       {/* Footer */}
       <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-black/40 border-t border-white/10">
