@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X, FileUser  } from 'lucide-react';
+import { Linkedin, Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X, FileUser  } from 'lucide-react';
 import { Typewriter } from 'react-simple-typewriter';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -53,7 +53,7 @@ const Portfolio = () => {
   const projects = [
     {
       title: "myGuide - AI Travel Assistant",
-      description: "AI-powered web app for personalized travel recommendations in Algeria with chatbot integration",
+      description: "AI-powered web app for personalized travel recommendations in Algeria include features like chatbot using RAG and agents recommendation system.",
       tech: ["Next.js", "TypeScript", "TailwindCSS", "NestJS", "PostgreSQL", "PyTorch"],
       status: "Ongoing",
       github: "https://github.com/orgs/myGuideSlimene/repositories",
@@ -250,7 +250,7 @@ const Portfolio = () => {
               <Typewriter
                 words={[
                   'Computer science student ...',
-                  'Full stack developer ...',
+                  'Full stack web developer ...',
                   'AI and cyber security enthusiast ...',
                   'Freelancer ...',
                 ]}
@@ -263,8 +263,8 @@ const Portfolio = () => {
               />
             </h2>
             <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-              Computer Science Engineering Student specializing in Full stack development. 
-              Building scalable applications with modern technologies and machine learning integration.
+              Computer Science Engineering Student specializing in Full stack Web & AI development. 
+              Building scalable applications with modern technologies and AI integration.
             </p>
           </div>
 
@@ -284,6 +284,12 @@ const Portfolio = () => {
               <Mail size={20} />
               Email
             </button>
+
+            <a href="https://www.linkedin.com/in/slimene-fellah-25950a224/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
+              <Linkedin size={20} />
+              LinkedIn
+            </a>
+
             <a href="https://drive.google.com/file/d/1aEEnkynjFdcL7v_p5bXIiNhGgIV94FQj/view?usp=sharing" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
               <FileUser size={20} />
               Download Resume
@@ -292,7 +298,7 @@ const Portfolio = () => {
 
           <div className="flex items-center justify-center gap-2 text-white/60">
             <MapPin size={16} />
-            <span>Algiers, Algeria</span>
+            <span>Oran, Algeria</span>
           </div>
 
           <div className="mt-12 animate-bounce">
@@ -614,11 +620,17 @@ const Portfolio = () => {
               <h3 className="font-semibold mb-2">Email</h3>
               <p className="text-white/70 text-sm">fellah.slimene@gmail.com</p>
             </a>
-
+{/* 
             <a href="https://github.com/SlimenFellah" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
               <Github className="mx-auto mb-4 text-blue-400" size={32} />
               <h3 className="font-semibold mb-2">GitHub</h3>
               <p className="text-white/70 text-sm">@SlimenFellah</p>
+            </a>
+*/}
+            <a href="https://www.linkedin.com/in/slimene-fellah-25950a224/" target="_blank" rel="noopener noreferrer" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
+              <Linkedin className="mx-auto mb-4 text-blue-400" size={32} />
+              <h3 className="font-semibold mb-2">LinkedIn</h3>
+              <p className="text-white/70 text-sm">/slimene-fellah</p>
             </a>
 
             <a href="https://drive.google.com/file/d/1aEEnkynjFdcL7v_p5bXIiNhGgIV94FQj/view?usp=sharing" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
@@ -642,7 +654,7 @@ const Portfolio = () => {
 
           <div className="flex items-center justify-center gap-2 text-white/60">
             <MapPin size={16} />
-            <span>Based in Algiers, Algeria</span>
+            <span>Based in Oran, Algeria</span>
           </div>
         </div>
       </section>
