@@ -43,6 +43,8 @@ const Portfolio = () => {
   const [terminalText, setTerminalText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState({});
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxProjectIndex, setLightboxProjectIndex] = useState(null);
   const email = "fellah.slimene@gmail.com";
 
   // Initialize image indices for all projects
@@ -68,6 +70,16 @@ const Portfolio = () => {
         ? projects[projectIndex].images.length - 1 
         : prev[projectIndex] - 1
     }));
+  };
+
+  const openLightbox = (projectIndex) => {
+    setLightboxProjectIndex(projectIndex);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    setLightboxProjectIndex(null);
   };
 
   // Terminal animation effect
@@ -461,17 +473,17 @@ const Portfolio = () => {
           <div className="text-xl sm:text-2xl mb-6 font-mono" style={{ color: currentColors.textSecondary }}>
             <Typewriter
               words={[
-                '> Computer Science Student',
-                '> Full Stack Developer',
-                '> AI Enthusiast',
-                '> Problem Solver'
+                'Computer science student ...',
+                'Full-Stack Web & AI Developer ...',
+                'Cyber security enthusiast ...',
+                'Freelancer ...'
               ]}
               loop={0}
               cursor
-              cursorStyle="_"
+              cursorStyle="|"
               typeSpeed={70}
-              deleteSpeed={50}
-              delaySpeed={1500}
+              deleteSpeed={70}
+              delaySpeed={500}
             />
           </div>
 
@@ -566,7 +578,7 @@ const Portfolio = () => {
               </h3>
               <div className="space-y-4 font-mono text-lg ml-4" style={{ color: currentColors.textSecondary }}>
                 <div>name: "Slimene Fellah",</div>
-                <div>role: "Full Stack Developer",</div>
+                <div>role: "Full-Stack Web & AI Developer",</div>
                 <div>education: "Computer Science Engineering",</div>
                 <div>passion: ["AI", "Web Development", "Problem Solving"],</div>
                 <div>currentFocus: "Building scalable applications",</div>
@@ -639,7 +651,8 @@ const Portfolio = () => {
                     <img
                       src={project.images[currentImageIndex[index] || 0]}
                       alt={`${project.title} screenshot ${(currentImageIndex[index] || 0) + 1}`}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover cursor-zoom-in"
+                      onClick={() => openLightbox(index)}
                       onError={(e) => {
                         console.error(`Failed to load image: ${e.target.src}`);
                         e.target.style.display = 'block';
@@ -884,17 +897,19 @@ const Portfolio = () => {
           </div>
           
           <div className="flex flex-wrap justify-center gap-4">
-            <button
-              onClick={handleEmailClick}
+            <a
+              href="https://calendly.com/fellah-slimene/meet"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 px-8 py-4 rounded-lg transition-all duration-300 hover:scale-105 font-mono"
               style={{ 
                 backgroundColor: currentColors.text,
                 color: currentColors.primary 
               }}
             >
-              <Mail size={20} />
-              Send Message
-            </button>
+              <Calendar size={20} />
+              Book a Meeting
+            </a>
           </div>
         </div>
       </section>
@@ -905,8 +920,76 @@ const Portfolio = () => {
           <p className="font-mono" style={{ color: currentColors.textMuted }}>
             © 2024 Slimene Fellah. Built with React & ❤️
           </p>
+          <p className="font-mono mt-2" style={{ color: currentColors.textMuted }}>
+            Developed and maintained by Slimene Fellah — available for freelance work
+          </p>
         </div>
       </footer>
+
+      {/* Lightbox Overlay */}
+      {lightboxOpen && lightboxProjectIndex !== null && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-sm cursor-zoom-out"
+          style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeLightbox();
+          }}
+        >
+          <div className="relative w-full max-w-[90vw] md:max-w-5xl px-4">
+            <img
+              src={projects[lightboxProjectIndex].images[currentImageIndex[lightboxProjectIndex] || 0]}
+              alt={`${projects[lightboxProjectIndex].title} full image`}
+              className="w-full max-h-[80vh] object-contain rounded-lg"
+              onError={(e) => {
+                console.error(`Failed to load image: ${e.target.src}`);
+                e.target.style.backgroundColor = currentColors.cardBg;
+                e.target.style.border = `1px solid ${currentColors.border}`;
+              }}
+            />
+
+            {/* Navigation in Lightbox */}
+            {projects[lightboxProjectIndex].images.length > 1 && (
+              <>
+                <button
+                  onClick={(ev) => { ev.stopPropagation(); prevImage(lightboxProjectIndex); }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all duration-200 hover:scale-110"
+                  style={{ backgroundColor: `${currentColors.cardBg}CC`, color: currentColors.text }}
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <button
+                  onClick={(ev) => { ev.stopPropagation(); nextImage(lightboxProjectIndex); }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all duration-200 hover:scale-110"
+                  style={{ backgroundColor: `${currentColors.cardBg}CC`, color: currentColors.text }}
+                >
+                  <ChevronRight size={20} />
+                </button>
+
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1">
+                  {projects[lightboxProjectIndex].images.map((_, imgIndex) => (
+                    <button
+                      key={imgIndex}
+                      onClick={(ev) => { ev.stopPropagation(); setCurrentImageIndex(prev => ({ ...prev, [lightboxProjectIndex]: imgIndex })); }}
+                      className="w-2.5 h-2.5 rounded-full transition-all duration-200"
+                      style={{ backgroundColor: imgIndex === (currentImageIndex[lightboxProjectIndex] || 0) ? currentColors.text : `${currentColors.text}40` }}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* Close button */}
+            <button
+              onClick={(ev) => { ev.stopPropagation(); closeLightbox(); }}
+              className="absolute top-4 right-4 p-2 rounded-lg transition-all duration-200 hover:scale-110"
+              style={{ backgroundColor: `${currentColors.cardBg}CC`, color: currentColors.text }}
+            >
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+      )}
 
 
     </div>
