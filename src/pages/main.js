@@ -1,36 +1,136 @@
 import { useState, useEffect } from 'react';
-import { Linkedin, Globe, Users, Mic, Shield, Terminal, GitBranch, Presentation, CalendarCheck, GraduationCap, Briefcase, FlaskConical, Code2, Layers, Github, Mail, MapPin, ExternalLink, Award, Calendar, Code, Database, Cpu, ChevronDown, Menu, X, FileUser  } from 'lucide-react';
+import { 
+  Terminal, 
+  Code, 
+  Github, 
+  Mail, 
+  MapPin, 
+  ExternalLink, 
+  Award, 
+  Calendar, 
+  Database, 
+  Cpu, 
+  Menu, 
+  X, 
+  FileUser, 
+  Linkedin,
+  Sun,
+  Moon,
+  ChevronRight,
+  Play,
+  Pause,
+  Monitor,
+  Smartphone,
+  Globe,
+  Zap,
+  Coffee,
+  GitBranch,
+  Users,
+  Trophy,
+  Target,
+  ChevronLeft
+} from 'lucide-react';
 import { Typewriter } from 'react-simple-typewriter';
 import { toast, ToastContainer } from 'react-toastify';
+import { useTheme } from '../contexts/ThemeContext';
 import 'react-toastify/dist/ReactToastify.css';
 
-const skillIcons = {
-  "Frontend": <Code2 size={16} className="text-blue-400" />,
-  "Backend": <Code2 size={16} className="text-blue-400" />,
-  "Database": <Database size={16} className="text-blue-400" />,
-  "AI/ML": <Cpu size={16} className="text-blue-400" />,
-  "Tools": <Layers size={16} className="text-blue-400" />,
-};
-
 const Portfolio = () => {
+  const { isDark, toggleTheme, colors } = useTheme();
+  const currentColors = isDark ? colors.dark : colors.light;
   const [activeSection, setActiveSection] = useState('hero');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [terminalText, setTerminalText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState({});
   const email = "fellah.slimene@gmail.com";
 
-  const handleClick = (e) => {
+  // Initialize image indices for all projects
+  useEffect(() => {
+    const initialIndices = {};
+    projects.forEach((_, index) => {
+      initialIndices[index] = 0;
+    });
+    setCurrentImageIndex(initialIndices);
+  }, []);
+
+  const nextImage = (projectIndex) => {
+    setCurrentImageIndex(prev => ({
+      ...prev,
+      [projectIndex]: (prev[projectIndex] + 1) % projects[projectIndex].images.length
+    }));
+  };
+
+  const prevImage = (projectIndex) => {
+    setCurrentImageIndex(prev => ({
+      ...prev,
+      [projectIndex]: prev[projectIndex] === 0 
+        ? projects[projectIndex].images.length - 1 
+        : prev[projectIndex] - 1
+    }));
+  };
+
+  // Terminal animation effect
+  useEffect(() => {
+    const commands = [
+      'npm install success',
+      'git commit -m "life update"',
+      'docker build -t developer .',
+      'python train_model.py',
+      'node server.js --port 3000'
+    ];
+    
+    let commandIndex = 0;
+    let charIndex = 0;
+    let timeoutId;
+    
+    const typeCommand = () => {
+      if (commandIndex < commands.length) {
+        if (charIndex < commands[commandIndex].length) {
+          setTerminalText(commands[commandIndex].substring(0, charIndex + 1));
+          charIndex++;
+          timeoutId = setTimeout(typeCommand, 100);
+        } else {
+          timeoutId = setTimeout(() => {
+            setTerminalText('');
+            charIndex = 0;
+            commandIndex = (commandIndex + 1) % commands.length;
+            timeoutId = setTimeout(typeCommand, 500);
+          }, 2000);
+        }
+      }
+    };
+    
+    typeCommand();
+    
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
+  // Cursor blinking effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleEmailClick = (e) => {
     e.preventDefault();
-
-    // Open default mail client
     window.location.href = `mailto:${email}`;
-
-    // Copy to clipboard
     navigator.clipboard.writeText(email).then(() => {
-      toast.success("Email copied to clipboard!");
+      toast.success("Email copied to clipboard!", {
+        style: {
+          background: currentColors.cardBg,
+          color: currentColors.text,
+          border: `1px solid ${currentColors.border}`
+        }
+      });
     }).catch(() => {
       toast.error("Failed to copy email.");
     });
   };
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,7 +158,17 @@ const Portfolio = () => {
       status: "Ongoing",
       github: "https://github.com/orgs/myGuideSlimene/repositories",
       type: "Web app",
-      images: ["/assets/projects/myguide/myguide1.jpg", "/assets/projects/myguide/myguide2.jpg", "/assets/projects/myguide/myguide3.jpg", "/assets/projects/myguide/myguide4.jpg", "/assets/projects/myguide/myguide5.jpg", "/assets/projects/myguide/myguide6.jpg", "/assets/projects/myguide/myguide7.jpg", "/assets/projects/myguide/myguide8.jpg"]
+      icon: <Globe className="w-6 h-6" />,
+      images: [
+        "/assets/projects/myguide/myguide1.jpg",
+        "/assets/projects/myguide/myguide2.jpg",
+        "/assets/projects/myguide/myguide3.jpg",
+        "/assets/projects/myguide/myguide4.jpg",
+        "/assets/projects/myguide/myguide5.jpg",
+        "/assets/projects/myguide/myguide6.jpg",
+        "/assets/projects/myguide/myguide7.jpg",
+        "/assets/projects/myguide/myguide8.jpg"
+      ]
     },
     {
       title: "Agrisistance",
@@ -67,7 +177,13 @@ const Portfolio = () => {
       link: "https://agrisistance.netlify.app/",
       github: "https://github.com/orgs/AGRISISTANCE/repositories",
       type: "Web App",
-      images: ["/assets/projects/agrisistance/agrisistance1.jpg", "/assets/projects/agrisistance/agrisistance2.jpg", "/assets/projects/agrisistance/agrisistance3.jpg", "/assets/projects/agrisistance/agrisistance4.jpg"]
+      icon: <Target className="w-6 h-6" />,
+      images: [
+        "/assets/projects/agrisistance/agrisistance1.jpg",
+        "/assets/projects/agrisistance/agrisistance2.jpg",
+        "/assets/projects/agrisistance/agrisistance3.jpg",
+        "/assets/projects/agrisistance/agrisistance4.jpg"
+      ]
     },
     {
       title: "PDFinder",
@@ -75,7 +191,10 @@ const Portfolio = () => {
       tech: ["React", "FastAPI", "Elasticsearch", "MySQL", "Tailwind CSS"],
       github: "https://github.com/orgs/TpIgl2023/repositories",
       type: "Web App",
-      images: ["/assets/projects/pdfinder/pdfinder1.jpg"]
+      icon: <Database className="w-6 h-6" />,
+      images: [
+        "/assets/projects/pdfinder/pdfinder1.jpg"
+      ]
     },
     {
       title: "Needy App",
@@ -84,145 +203,181 @@ const Portfolio = () => {
       link: "https://needy.onrender.com/",
       github: "https://github.com/SlimenFellah/needy",
       type: "Web App",
-      images: ["/assets/projects/needy/needy1.jpg", "/assets/projects/needy/needy2.jpg"]
+      icon: <Users className="w-6 h-6" />,
+      images: [
+        "/assets/projects/needy/needy1.jpg",
+        "/assets/projects/needy/needy2.jpg"
+      ]
+    },
+    {
+      title: "Portfolio Website",
+      description: "Personal portfolio website showcasing projects and skills with modern design and animations",
+      tech: ["React", "Tailwind CSS", "JavaScript"],
+      github: "https://github.com/SlimenFellah/portfolio",
+      type: "Web App",
+      icon: <Code className="w-6 h-6" />,
+      images: [
+        "/assets/projects/portfolio/Portfolio.png",
+        "/assets/projects/portfolio/Portfolio2.png"
+      ]
     }
   ];
 
   const achievements = [
-  {
-    title: "Winner – Yassir AI Hackathon",
-    date: "Dec 2024",
-    description: "Achieved 1st place by building an AI-driven system that optimizes driver-task assignments in real time, enhancing fleet efficiency and reducing response time."
-  },
-  {
-    title: "Semifinalist – A2SV AI Hackathon",
-    date: "Jul–Oct 2024",
-    description: "Selected among Africa’s top AI talents with the project 'Agrisistance' — an AI-based solution empowering farmers through land optimization and crop yield prediction."
-  },
-  {
-    title: "2nd Place – GameCraft Game Jam",
-    date: "Aug 2024",
-    description: "Developed 'Catsu', a 2D puzzle-platformer game featuring innovative time-travel mechanics, designed and built within a limited time frame."
-  },
-  {
-    title: "3rd Place – InnovDigital Competition",
-    date: "Apr 2024",
-    description: "Recognized for proposing a smart Electronic Document Management System (EDMS) solution to improve workflow automation and digital archiving efficiency."
-  }
-];
+    {
+      title: "Winner – Yassir AI Hackathon",
+      date: "Dec 2024",
+      description: "Achieved 1st place by building an AI-driven system that optimizes driver-task assignments in real time, enhancing fleet efficiency and reducing response time.",
+      icon: <Trophy className="w-6 h-6" />
+    },
+    {
+      title: "Semifinalist – A2SV AI Hackathon",
+      date: "Jul–Oct 2024",
+      description: "Selected among Africa's top AI talents with the project 'Agrisistance' — an AI-based solution empowering farmers through land optimization and crop yield prediction.",
+      icon: <Award className="w-6 h-6" />
+    },
+    {
+      title: "2nd Place – GameCraft Game Jam",
+      date: "Aug 2024",
+      description: "Developed 'Catsu', a 2D puzzle-platformer game featuring innovative time-travel mechanics, designed and built within a limited time frame.",
+      icon: <Trophy className="w-6 h-6" />
+    },
+    {
+      title: "3rd Place – InnovDigital Competition",
+      date: "Apr 2024",
+      description: "Recognized for proposing a smart Electronic Document Management System (EDMS) solution to improve workflow automation and digital archiving efficiency.",
+      icon: <Award className="w-6 h-6" />
+    }
+  ];
 
- const skills = {
-  "Frontend": ["React.js", "TypeScript", "Next.js", "Tailwind CSS", "Chakra UI"],
-  "Backend": ["Node.js", "Express.js", "NestJS", "FastAPI", "Flask"],
-  "Database": ["PostgreSQL", "MongoDB", "MySQL", "SQLite", "Prisma ORM"],
-  "AI/ML": ["PyTorch", "scikit-learn", "TensorFlow", "OpenAI API", "Hugging Face"],
-  "Tools": ["Git", "Docker", "GitHub Actions", "CI/CD"]
-};
-
+  const skills = {
+    "Frontend": {
+      items: ["React.js", "TypeScript", "Next.js", "Tailwind CSS", "Chakra UI"],
+      icon: <Monitor className="w-5 h-5" />
+    },
+    "Backend": {
+      items: ["Node.js", "Express.js", "NestJS", "FastAPI", "Flask"],
+      icon: <Terminal className="w-5 h-5" />
+    },
+    "Database": {
+      items: ["PostgreSQL", "MongoDB", "MySQL", "SQLite", "Prisma ORM"],
+      icon: <Database className="w-5 h-5" />
+    },
+    "AI/ML": {
+      items: ["PyTorch", "scikit-learn", "TensorFlow", "OpenAI API", "Hugging Face"],
+      icon: <Cpu className="w-5 h-5" />
+    },
+    "Tools": {
+      items: ["Git", "Docker", "GitHub Actions", "CI/CD"],
+      icon: <GitBranch className="w-5 h-5" />
+    }
+  };
 
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
   };
 
-  const [currentIndexes, setCurrentIndexes] = useState(
-    projects.map(() => 0) // one index per project
-  );
-
-  const handlePrev = (projectIndex) => {
-    setCurrentIndexes((prev) =>
-      prev.map((val, i) =>
-        i === projectIndex
-          ? (val - 1 + projects[i].images.length) % projects[i].images.length
-          : val
-      )
-    );
-  };
-
-  const handleNext = (projectIndex) => {
-    setCurrentIndexes((prev) =>
-      prev.map((val, i) =>
-        i === projectIndex
-          ? (val + 1) % projects[i].images.length
-          : val
-      )
-    );
-  };
-  const [lightbox, setLightbox] = useState({
-    isOpen: false,
-    projectIndex: null,
-    imageIndex: 0,
-  });
-
-  function openLightbox(projectIndex, imageIndex) {
-  setLightbox({ isOpen: true, projectIndex, imageIndex });
-  }
-
-  function closeLightbox() {
-    setLightbox({ isOpen: false, projectIndex: null, imageIndex: 0 });
-  }
-
-  function nextLightboxImage() {
-    const images = projects[lightbox.projectIndex].images;
-    setLightbox((prev) => ({
-      ...prev,
-      imageIndex: (prev.imageIndex + 1) % images.length,
-    }));
-  }
-
-  function prevLightboxImage() {
-    const images = projects[lightbox.projectIndex].images;
-    setLightbox((prev) => ({
-      ...prev,
-      imageIndex: (prev.imageIndex - 1 + images.length) % images.length,
-    }));
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
+    <div 
+      className="min-h-screen transition-all duration-500"
+      style={{ 
+        background: currentColors.gradient,
+        color: currentColors.text 
+      }}
+    >
+      {/* Animated Background Grid */}
+      <div className="fixed inset-0 opacity-10 pointer-events-none z-0">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(${currentColors.border} 1px, transparent 1px), linear-gradient(90deg, ${currentColors.border} 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          animation: 'grid-move 20s linear infinite'
+        }}></div>
+      </div>
+
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-black/20 backdrop-blur-md border-b border-white/10 z-50">
+      <nav 
+        className="fixed top-0 w-full backdrop-blur-md border-b z-50 transition-all duration-300"
+        style={{ 
+          backgroundColor: currentColors.navBg,
+          borderColor: currentColors.border 
+        }}
+      >
         <ToastContainer position="top-center" autoClose={2000} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <div className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Slimene Fellah
+            <div className="flex items-center space-x-2">
+              <Terminal className="w-6 h-6" style={{ color: currentColors.text }} />
+              <span className="text-xl font-mono font-bold" style={{ color: currentColors.text }}>
+                ~/slimene-fellah
+              </span>
             </div>
             
-            {/* /* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
-              {['About', 'Projects', 'Experience', 'Achievements', 'Contact'].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                className={`transition-colors duration-200 hover:text-blue-400 hover:cursor-pointer ${
-                activeSection === item.toLowerCase() ? 'text-blue-400' : 'text-white/80'
-                }`}
-              >
-                {item}
-              </button>
-              ))}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden hover:cursor-pointer"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-            </div>
-
-            {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden py-4 space-y-2">
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center space-x-8">
               {['About', 'Projects', 'Experience', 'Achievements', 'Contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="block w-full text-left py-2 hover:text-blue-400 transition-colors"
+                  className={`transition-all duration-200 hover:scale-105 font-mono ${
+                    activeSection === item.toLowerCase() 
+                      ? 'border-b-2' 
+                      : 'hover:opacity-70'
+                  }`}
+                  style={{ 
+                    color: activeSection === item.toLowerCase() ? currentColors.text : currentColors.textSecondary,
+                    borderColor: activeSection === item.toLowerCase() ? currentColors.text : 'transparent'
+                  }}
                 >
-                  {item}
+                  {item.toLowerCase()}
+                </button>
+              ))}
+              
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg transition-all duration-300 hover:scale-110"
+                style={{ 
+                  backgroundColor: currentColors.accent,
+                  color: currentColors.text 
+                }}
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center space-x-2">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg transition-all duration-300"
+                style={{ 
+                  backgroundColor: currentColors.accent,
+                  color: currentColors.text 
+                }}
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                style={{ color: currentColors.text }}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden py-4 space-y-2 border-t" style={{ borderColor: currentColors.border }}>
+              {['About', 'Projects', 'Experience', 'Achievements', 'Contact'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className="block w-full text-left py-2 font-mono transition-colors hover:opacity-70"
+                  style={{ color: currentColors.textSecondary }}
+                >
+                  {item.toLowerCase()}
                 </button>
               ))}
             </div>
@@ -231,142 +386,223 @@ const Portfolio = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-4xl mx-auto">
+      <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center max-w-4xl mx-auto z-10">
+          {/* Terminal Window */}
+          <div 
+            className="mb-8 mx-auto max-w-2xl rounded-lg border shadow-2xl overflow-hidden"
+            style={{ 
+              backgroundColor: currentColors.cardBg,
+              borderColor: currentColors.border 
+            }}
+          >
+            {/* Terminal Header */}
+            <div 
+              className="flex items-center justify-between px-4 py-2 border-b"
+              style={{ 
+                backgroundColor: currentColors.accent,
+                borderColor: currentColors.border 
+              }}
+            >
+              <div className="flex space-x-2">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              </div>
+              <span className="font-mono text-sm" style={{ color: currentColors.textMuted }}>
+                terminal
+              </span>
+            </div>
+            
+            {/* Terminal Content */}
+            <div className="p-4 font-mono text-left">
+              <div className="flex items-center mb-2">
+                <span style={{ color: currentColors.textMuted }}>$</span>
+                <span className="ml-2" style={{ color: currentColors.text }}>
+                  whoami
+                </span>
+              </div>
+              <div className="mb-4" style={{ color: currentColors.textSecondary }}>
+                slimene-fellah: full-stack developer & ai enthusiast
+              </div>
+              
+              <div className="flex items-start mb-2">
+                <span style={{ color: currentColors.textMuted }}>$</span>
+                <span className="ml-2 break-all" style={{ color: currentColors.text }}>
+                  {terminalText}
+                  {showCursor && <span className="animate-pulse">|</span>}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Profile Image */}
           <div className="mb-8">
-            <div className="mt-24 w-64 h-64 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-1">
+            <div className="flex justify-center">
               <img
                 src="/assets/personalPicture.jpg"
-                alt="Personal"
-                className="w-full h-full object-cover rounded-full"
+                alt="Slimene Fellah"
+                className="w-48 h-48 rounded-full border-4 object-cover transition-all duration-500 shadow-xl"
+                style={{ 
+                  borderColor: currentColors.text,
+                  boxShadow: `0 0 30px ${currentColors.text}20`
+                }}
               />
             </div>
-            <h1 className="text-4xl sm:text-6xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                Slimene Fellah
-              </span>
-            </h1>
-            <h2 className="text-xl sm:text-2xl text-white/80 mb-6">
-              <Typewriter
-                words={[
-                  'Computer science student ...',
-                  'Full stack web developer ...',
-                  'AI and cyber security enthusiast ...',
-                  'Freelancer ...',
-                ]}
-                loop={0} // 0 = infinite
-                cursor
-                cursorStyle="|"
-                typeSpeed={70}
-                deleteSpeed={50}
-                delaySpeed={1500}
-              />
-            </h2>
-            <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-              Computer Science Engineering Student specializing in Full stack Web & AI development. 
-              Building scalable applications with modern technologies and AI integration.
-            </p>
           </div>
 
+          {/* Name and Title */}
+          <h1 className="text-4xl sm:text-6xl font-bold mb-4 font-mono">
+            <span style={{ color: currentColors.text }}>
+              Slimene Fellah
+            </span>
+          </h1>
+          
+          <div className="text-xl sm:text-2xl mb-6 font-mono" style={{ color: currentColors.textSecondary }}>
+            <Typewriter
+              words={[
+                '> Computer Science Student',
+                '> Full Stack Developer',
+                '> AI Enthusiast',
+                '> Problem Solver'
+              ]}
+              loop={0}
+              cursor
+              cursorStyle="_"
+              typeSpeed={70}
+              deleteSpeed={50}
+              delaySpeed={1500}
+            />
+          </div>
+
+          <p className="text-lg mb-8 max-w-2xl mx-auto font-mono" style={{ color: currentColors.textMuted }}>
+            Building scalable applications with modern technologies and AI integration. 
+            Passionate about clean code and innovative solutions.
+          </p>
+
+          {/* Action Buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <a href="https://github.com/SlimenFellah" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
+            <a 
+              href="https://github.com/SlimenFellah" 
+              className="btn-animate flex items-center gap-2 px-6 py-3 rounded-lg font-mono border"
+              style={{ 
+                backgroundColor: currentColors.cardBg,
+                borderColor: currentColors.border,
+                color: currentColors.text 
+              }}
+            >
               <Github size={20} />
-              GitHub
+              github
             </a>
-            {/* <a href="mailto:fellah.slimene@gmail.com" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
-              <Mail size={20} />
-              Email
-            </a> */}
+            
             <button
-              onClick={handleClick}
-              className="flex items-center gap-2 cursor-pointer bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105"
+              onClick={handleEmailClick}
+              className="btn-animate flex items-center gap-2 px-6 py-3 rounded-lg font-mono border"
+              style={{ 
+                backgroundColor: currentColors.cardBg,
+                borderColor: currentColors.border,
+                color: currentColors.text 
+              }}
             >
               <Mail size={20} />
-              Email
+              email
             </button>
 
-            <a href="https://www.linkedin.com/in/slimene-fellah-25950a224/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
+            <a 
+              href="https://www.linkedin.com/in/slimene-fellah-25950a224/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-animate flex items-center gap-2 px-6 py-3 rounded-lg font-mono border"
+              style={{ 
+                backgroundColor: currentColors.cardBg,
+                borderColor: currentColors.border,
+                color: currentColors.text 
+              }}
+            >
               <Linkedin size={20} />
-              LinkedIn
+              linkedin
             </a>
 
-            <a href="https://drive.google.com/file/d/1aEEnkynjFdcL7v_p5bXIiNhGgIV94FQj/view?usp=sharing" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105">
+            <a 
+              href="https://drive.google.com/file/d/1aEEnkynjFdcL7v_p5bXIiNhGgIV94FQj/view?usp=sharing" 
+              className="btn-animate flex items-center gap-2 px-6 py-3 rounded-lg font-mono"
+              style={{ 
+                backgroundColor: currentColors.text,
+                color: currentColors.primary 
+              }}
+            >
               <FileUser size={20} />
-              Download Resume
+              resume.pdf
             </a>
           </div>
 
-          <div className="flex items-center justify-center gap-2 text-white/60">
+          <div className="flex items-center justify-center gap-2 font-mono" style={{ color: currentColors.textMuted }}>
             <MapPin size={16} />
-            <span>Oran, Algeria</span>
-          </div>
-
-          <div className="mt-12 animate-bounce">
-            <ChevronDown size={24} className="mx-auto text-white/60" />
+            <span>Algeria</span>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12">
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              About Me
-            </span>
-          </h2>
-
-          {/* Education & Experience */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-semibold mb-6 flex items-center justify-center gap-2 text-white">
-              <GraduationCap className="text-blue-400" size={20} />
-              Education & Experience
-            </h3>
-            <div className="space-y-5 text-white/80">
-              <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                <h4 className="font-semibold text-white flex items-center justify-center gap-2">
-                  <GraduationCap size={16} className="text-cyan-400" />
-                  Computer Science Engineering
-                </h4>
-                <p className="text-sm mt-1">ESI (ex-INI), Algiers • 2021–Present</p>
-              </div>
-              <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                <h4 className="font-semibold text-white flex items-center justify-center gap-2">
-                  <Briefcase size={16} className="text-cyan-400" />
-                  Freelance Web Developer
-                </h4>
-                <p className="text-sm mt-1">Upwork Inc. • Jan 2024–Present</p>
-              </div>
-              <div className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                <h4 className="font-semibold text-white flex items-center justify-center gap-2">
-                  <FlaskConical size={16} className="text-cyan-400" />
-                  Research Intern
-                </h4>
-                <p className="text-sm mt-1">NYU Abu Dhabi • Jul–Oct 2024</p>
-              </div>
-            </div>
+      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-mono" style={{ color: currentColors.text }}>
+              <span style={{ color: currentColors.textMuted }}>//</span> About Me
+            </h2>
+            <div className="w-20 h-1 mx-auto" style={{ backgroundColor: currentColors.text }}></div>
           </div>
 
-          {/* Technical Skills */}
-          <div>
-            <h3 className="text-2xl font-semibold mb-6 flex items-center justify-center gap-2 text-white">
-              <Cpu className="text-blue-400" size={20} />
-              Technical Skills
-            </h3>
-            <div className="space-y-5">
-              {Object.entries(skills).map(([category, techs]) => (
-                <div key={category} className="p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                  <h4 className="font-semibold text-blue-400 mb-3 flex items-center justify-center gap-2">
-                    {skillIcons[category] || <Code2 size={16} className="text-blue-400" />}
-                    {category}
-                  </h4>
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {techs.map((tech) => (
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div 
+              className="p-6 rounded-lg border"
+              style={{ 
+                backgroundColor: currentColors.cardBg,
+                borderColor: currentColors.border 
+              }}
+            >
+              <h3 className="text-2xl font-bold mb-6 font-mono" style={{ color: currentColors.text }}>
+                const developer = {'{'}
+              </h3>
+              <div className="space-y-4 font-mono text-lg ml-4" style={{ color: currentColors.textSecondary }}>
+                <div>name: "Slimene Fellah",</div>
+                <div>role: "Full Stack Developer",</div>
+                <div>education: "Computer Science Engineering",</div>
+                <div>passion: ["AI", "Web Development", "Problem Solving"],</div>
+                <div>currentFocus: "Building scalable applications",</div>
+                <div>coffee: "☕ Always brewing"</div>
+              </div>
+              <div className="font-mono text-lg mt-4" style={{ color: currentColors.text }}>{'}'}</div>
+            </div>
+
+            <div className="space-y-6">
+              {Object.entries(skills).map(([category, { items, icon }]) => (
+                <div 
+                  key={category}
+                  className="p-6 rounded-lg border transition-all duration-300 hover:scale-105"
+                  style={{ 
+                    backgroundColor: currentColors.cardBg,
+                    borderColor: currentColors.border 
+                  }}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div style={{ color: currentColors.text }}>{icon}</div>
+                    <h4 className="font-bold font-mono" style={{ color: currentColors.text }}>
+                      {category}
+                    </h4>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {items.map((skill) => (
                       <span
-                        key={tech}
-                        className="px-3 py-1 bg-white/10 text-white/90 rounded-full text-sm hover:bg-white/20 transition"
+                        key={skill}
+                        className="px-3 py-1 rounded text-sm font-mono border"
+                        style={{ 
+                          backgroundColor: currentColors.accent,
+                          borderColor: currentColors.border,
+                          color: currentColors.textSecondary 
+                        }}
                       >
-                        {tech}
+                        {skill}
                       </span>
                     ))}
                   </div>
@@ -378,222 +614,147 @@ const Portfolio = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
+      <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            Featured Projects
-          </span>
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <div key={index} className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-
-              {/* Image with buttons */}
-              <div className="relative mb-4">
-                <img
-                  onClick={() => openLightbox(index, 0)}
-                  src={project.images[currentIndexes[index]]}
-                  alt={`${project.title} screenshot`}
-                  className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition"
-                />
-                {project.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={() => handlePrev(index)}
-                      className="cursor-pointer absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
-                    >
-                      ‹
-                    </button>
-                    <button
-                      onClick={() => handleNext(index)}
-                      className="cursor-pointer absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded hover:bg-black/60"
-                    >
-                      ›
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* Title & type */}
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-semibold text-white">{project.title}</h3>
-                <span className="px-3 py-1 bg-blue-600/30 text-blue-300 rounded-full text-xs">
-                  {project.type}
-                </span>
-              </div>
-
-              <p className="text-white/70 mb-4">{project.description}</p>
-
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.tech.map((tech) => (
-                  <span key={tech} className="px-2 py-1 bg-white/10 rounded text-xs">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-4">
-                {project.github && (
-                  <a href={project.github} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer">
-                    <Github size={16} />
-                    Code
-                  </a>
-                )}
-                {project.link && (
-                  <a href={project.link} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer">
-                    <ExternalLink size={16} />
-                    Live Demo
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-        </div>
-        {lightbox.isOpen && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <button
-            onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white text-2xl cursor-pointer"
-          >
-            ✕
-          </button>
-
-          <button
-            onClick={prevLightboxImage}
-            className="absolute left-4 text-white text-4xl cursor-pointer"
-          >
-            ‹
-          </button>
-
-          <img
-            src={projects[lightbox.projectIndex].images[lightbox.imageIndex]}
-            alt="Project preview"
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-xl shadow-lg"
-          />
-
-          <button
-            onClick={nextLightboxImage}
-            className="absolute right-4 text-white text-4xl cursor-pointer"
-          >
-            ›
-          </button>
-        </div>
-      )}
-
-      </section>
-
-      {/* Experience Section */}
-      <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/10">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Experience & Activities
-            </span>
-          </h2>
-
-          <div className="space-y-12">
-            {/* Community Involvement */}
-            <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-sm">
-              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-white">
-                <Users className="text-blue-400" size={24} />
-                Community Involvement
-              </h3>
-
-              <div className="grid md:grid-cols-3 gap-6 text-sm text-white/80">
-                <div className="bg-white/10 hover:bg-white/20 transition rounded-lg p-4 space-y-2 h-full">
-                  <h4 className="font-semibold text-blue-400 flex items-center gap-2 text-base">
-                    <Globe size={16} />
-                    GDG Algiers
-                  </h4>
-                  <p className="text-white">Dev Team Member</p>
-                  <p className="text-white/60 text-xs">Built event websites and contributed to hackathon infrastructure and technical training.</p>
-                </div>
-
-                <div className="bg-white/10 hover:bg-white/20 transition rounded-lg p-4 space-y-2 h-full">
-                  <h4 className="font-semibold text-blue-400 flex items-center gap-2 text-base">
-                    <Terminal size={16} />
-                    School of AI Algiers
-                  </h4>
-                  <p className="text-white">Tech Contributor</p>
-                  <p className="text-white/60 text-xs">Led AI workshops, mentored newcomers & participants, and supported local AI learning initiatives.</p>
-                </div>
-
-                <div className="bg-white/10 hover:bg-white/20 transition rounded-lg p-4 space-y-2 h-full">
-                  <h4 className="font-semibold text-blue-400 flex items-center gap-2 text-base">
-                    <Shield size={16} />
-                    Shellmates Club
-                  </h4>
-                  <p className="text-white">Cybersecurity Contributor</p>
-                  <p className="text-white/60 text-xs">Authored CTF challenges, conducted practical workshops and trainings.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Workshops & Talks */}
-            <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-sm">
-              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-white">
-                <Mic className="text-blue-400" size={24} />
-                Workshops & Talks
-              </h3>
-
-              <div className="divide-y divide-white/10 text-sm text-white/80">
-                <div className="flex justify-between items-center py-3">
-                  <div className="flex items-center gap-3 text-white">
-                    <GitBranch size={16} className="text-blue-300" />
-                    <span className="font-medium">Version Control with Git & GitHub</span>
-                  </div>
-                  <span className="text-white/50 text-xs">Aug 2024</span>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div className="flex items-center gap-3 text-white">
-                    <Presentation size={16} className="text-blue-300" />
-                    <span className="font-medium">Regression Algorithms in Practice</span>
-                  </div>
-                  <span className="text-white/50 text-xs">Feb 2024</span>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div className="flex items-center gap-3 text-white">
-                    <CalendarCheck size={16} className="text-blue-300" />
-                    <span className="font-medium">Project Mentorship Guide</span>
-                  </div>
-                  <span className="text-white/50 text-xs">Dec 2023</span>
-                </div>
-              </div>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-mono" style={{ color: currentColors.text }}>
+              <span style={{ color: currentColors.textMuted }}>//</span> Projects
+            </h2>
+            <div className="w-20 h-1 mx-auto" style={{ backgroundColor: currentColors.text }}></div>
           </div>
-        </div>
-      </section>
 
-      {/* Achievements Section */}
-      <section id="achievements" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Awards & Recognition
-            </span>
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {achievements.map((achievement, index) => (
+          <div className="grid md:grid-cols-2 gap-8">
+            {projects.map((project, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-xl p-6 border border-yellow-500/20 hover:scale-105 transition-transform duration-300"
+                className="group p-6 rounded-lg border transition-all duration-300 hover:scale-105 relative z-10"
+                style={{ 
+                  backgroundColor: currentColors.cardBg,
+                  borderColor: currentColors.border 
+                }}
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 flex items-center justify-center text-yellow-400">
-                    <Award size={24} />
+                {/* Project Images Carousel */}
+                {project.images && project.images.length > 0 && (
+                  <div className="relative mb-4 rounded-lg overflow-hidden">
+                    <img
+                      src={project.images[currentImageIndex[index] || 0]}
+                      alt={`${project.title} screenshot ${(currentImageIndex[index] || 0) + 1}`}
+                      className="w-full h-48 object-cover"
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${e.target.src}`);
+                        e.target.style.display = 'block';
+                        e.target.style.backgroundColor = currentColors.cardBg;
+                        e.target.style.border = `1px solid ${currentColors.border}`;
+                        e.target.alt = `Image not found: ${project.title}`;
+                      }}
+                    />
+                    
+                    {/* Navigation Buttons */}
+                    {project.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => prevImage(index)}
+                          className="absolute left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-all duration-200 hover:scale-110"
+                          style={{ 
+                            backgroundColor: `${currentColors.cardBg}CC`,
+                            color: currentColors.text 
+                          }}
+                        >
+                          <ChevronLeft size={16} />
+                        </button>
+                        
+                        <button
+                          onClick={() => nextImage(index)}
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-all duration-200 hover:scale-110"
+                          style={{ 
+                            backgroundColor: `${currentColors.cardBg}CC`,
+                            color: currentColors.text 
+                          }}
+                        >
+                          <ChevronRight size={16} />
+                        </button>
+                        
+                        {/* Image Indicators */}
+                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+                          {project.images.map((_, imgIndex) => (
+                            <button
+                              key={imgIndex}
+                              onClick={() => setCurrentImageIndex(prev => ({ ...prev, [index]: imgIndex }))}
+                              className="w-2 h-2 rounded-full transition-all duration-200"
+                              style={{ 
+                                backgroundColor: imgIndex === (currentImageIndex[index] || 0) 
+                                  ? currentColors.text 
+                                  : `${currentColors.text}40`
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">{achievement.title}</h3>
-                    <div className="flex items-center gap-2 text-yellow-400 text-sm mb-2">
-                      <Calendar size={16} />
-                      {achievement.date}
-                    </div>
-                    <p className="text-white/70 text-sm">{achievement.description}</p>
-                  </div>
+                )}
+
+                <div className="flex items-center gap-3 mb-4">
+                  <div style={{ color: currentColors.text }}>{project.icon}</div>
+                  <h3 className="text-xl font-bold font-mono" style={{ color: currentColors.text }}>
+                    {project.title}
+                  </h3>
+                  {project.status && (
+                    <span 
+                      className="px-2 py-1 rounded text-xs font-mono"
+                      style={{ 
+                        backgroundColor: currentColors.accent,
+                        color: currentColors.textMuted 
+                      }}
+                    >
+                      {project.status}
+                    </span>
+                  )}
+                </div>
+
+                <p className="mb-4 font-mono" style={{ color: currentColors.textSecondary }}>
+                  {project.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2 py-1 rounded text-xs font-mono border"
+                      style={{ 
+                        backgroundColor: currentColors.accent,
+                        borderColor: currentColors.border,
+                        color: currentColors.textMuted 
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex gap-4">
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm font-mono transition-colors hover:opacity-70"
+                    style={{ color: currentColors.text }}
+                  >
+                    <Github size={16} />
+                    code
+                  </a>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm font-mono transition-colors hover:opacity-70"
+                      style={{ color: currentColors.text }}
+                    >
+                      <ExternalLink size={16} />
+                      demo
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
@@ -601,73 +762,153 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8">
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Let's Connect
-            </span>
-          </h2>
-
-          <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto">
-            I'm always open to discussing new opportunities, collaborations, or just having a chat about technology and innovation.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <a href="mailto:fellah.slimene@gmail.com" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-              <Mail className="mx-auto mb-4 text-blue-400" size={32} />
-              <h3 className="font-semibold mb-2">Email</h3>
-              <p className="text-white/70 text-sm">fellah.slimene@gmail.com</p>
-            </a>
-{/* 
-            <a href="https://github.com/SlimenFellah" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-              <Github className="mx-auto mb-4 text-blue-400" size={32} />
-              <h3 className="font-semibold mb-2">GitHub</h3>
-              <p className="text-white/70 text-sm">@SlimenFellah</p>
-            </a>
-*/}
-            <a href="https://www.linkedin.com/in/slimene-fellah-25950a224/" target="_blank" rel="noopener noreferrer" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-              <Linkedin className="mx-auto mb-4 text-blue-400" size={32} />
-              <h3 className="font-semibold mb-2">LinkedIn</h3>
-              <p className="text-white/70 text-sm">/slimene-fellah</p>
-            </a>
-
-            <a href="https://drive.google.com/file/d/1aEEnkynjFdcL7v_p5bXIiNhGgIV94FQj/view?usp=sharing" className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-              <FileUser className="mx-auto mb-4 text-blue-400" size={32} />
-              <h3 className="font-semibold mb-2">Resume</h3>
-              <p className="text-white/70 text-sm">Download Resume</p>
-            </a>
+      {/* Experience Section */}
+      <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-mono" style={{ color: currentColors.text }}>
+              <span style={{ color: currentColors.textMuted }}>//</span> Experience
+            </h2>
+            <div className="w-20 h-1 mx-auto" style={{ backgroundColor: currentColors.text }}></div>
           </div>
 
-          {/* Calendly CTA Button */}
-          <div className="mb-12 flex justify-center">
-            <a
-              href="https://calendly.com/fellah-slimene/meet"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex justify-center items-center bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold px-12 py-4 rounded-full shadow-lg cursor-pointer transition-all duration-300 hover:from-blue-600 hover:to-cyan-600 hover:scale-105 hover:shadow-xl"
+          <div className="space-y-8">
+            <div 
+              className="p-6 rounded-lg border"
+              style={{ 
+                backgroundColor: currentColors.cardBg,
+                borderColor: currentColors.border 
+              }}
             >
-              &nbsp; &nbsp; &nbsp; Book a Meeting &nbsp; &nbsp; &nbsp;  
-            </a>
-          </div>
+              <div className="flex items-center gap-3 mb-4">
+                <Coffee className="w-6 h-6" style={{ color: currentColors.text }} />
+                <h3 className="text-xl font-bold font-mono" style={{ color: currentColors.text }}>
+                  Freelance Developer
+                </h3>
+              </div>
+              <p className="font-mono mb-2" style={{ color: currentColors.textSecondary }}>
+                2023 - Present
+              </p>
+              <p className="font-mono" style={{ color: currentColors.textMuted }}>
+                Building custom web applications and AI solutions for various clients. 
+                Specializing in React, Node.js, and machine learning integrations.
+              </p>
+            </div>
 
-          <div className="flex items-center justify-center gap-2 text-white/60">
-            <MapPin size={16} />
-            <span>Based in Oran, Algeria</span>
+            <div 
+              className="p-6 rounded-lg border"
+              style={{ 
+                backgroundColor: currentColors.cardBg,
+                borderColor: currentColors.border 
+              }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <Terminal className="w-6 h-6" style={{ color: currentColors.text }} />
+                <h3 className="text-xl font-bold font-mono" style={{ color: currentColors.text }}>
+                  Computer Science Student
+                </h3>
+              </div>
+              <p className="font-mono mb-2" style={{ color: currentColors.textSecondary }}>
+                2021 - Present
+              </p>
+              <p className="font-mono" style={{ color: currentColors.textMuted }}>
+                Pursuing Computer Science Engineering with focus on AI and software development. 
+                Active in hackathons and competitive programming.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Achievements Section */}
+      <section id="achievements" className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-mono" style={{ color: currentColors.text }}>
+              <span style={{ color: currentColors.textMuted }}>//</span> Achievements
+            </h2>
+            <div className="w-20 h-1 mx-auto" style={{ backgroundColor: currentColors.text }}></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {achievements.map((achievement, index) => (
+              <div
+                key={index}
+                className="p-6 rounded-lg border transition-all duration-300 hover:scale-105"
+                style={{ 
+                  backgroundColor: currentColors.cardBg,
+                  borderColor: currentColors.border 
+                }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div style={{ color: currentColors.text }}>{achievement.icon}</div>
+                  <h3 className="text-lg font-bold font-mono" style={{ color: currentColors.text }}>
+                    {achievement.title}
+                  </h3>
+                </div>
+                <p className="font-mono text-sm mb-2" style={{ color: currentColors.textSecondary }}>
+                  {achievement.date}
+                </p>
+                <p className="font-mono text-sm" style={{ color: currentColors.textMuted }}>
+                  {achievement.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-mono" style={{ color: currentColors.text }}>
+              <span style={{ color: currentColors.textMuted }}>//</span> Get In Touch
+            </h2>
+            <div className="w-20 h-1 mx-auto" style={{ backgroundColor: currentColors.text }}></div>
+          </div>
+
+          <div 
+            className="p-8 rounded-lg border mb-8"
+            style={{ 
+              backgroundColor: currentColors.cardBg,
+              borderColor: currentColors.border 
+            }}
+          >
+            <h3 className="text-2xl font-bold mb-6 font-mono" style={{ color: currentColors.text }}>
+              Let's build something amazing together
+            </h3>
+            <p className="font-mono" style={{ color: currentColors.textSecondary }}>
+              I'm always open to discussing new opportunities, interesting projects, or just having a chat about technology.
+            </p>
+          </div>
+          
+          <div className="flex flex-wrap justify-center gap-4">
+            <button
+              onClick={handleEmailClick}
+              className="flex items-center gap-2 px-8 py-4 rounded-lg transition-all duration-300 hover:scale-105 font-mono"
+              style={{ 
+                backgroundColor: currentColors.text,
+                color: currentColors.primary 
+              }}
+            >
+              <Mail size={20} />
+              Send Message
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-black/40 border-t border-white/10">
+      <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t" style={{ borderColor: currentColors.border }}>
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-white/60">
-            © 2025 Slimene Fellah. Built with React and passion for innovation.
+          <p className="font-mono" style={{ color: currentColors.textMuted }}>
+            © 2024 Slimene Fellah. Built with React & ❤️
           </p>
         </div>
       </footer>
+
+
     </div>
   );
 };

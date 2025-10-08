@@ -1,9 +1,12 @@
 import './App.css';
 import Portfolio from './pages/main';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <Portfolio />
+    <ThemeProvider>
+      <Portfolio />
+    </ThemeProvider>
   );
 }
 
