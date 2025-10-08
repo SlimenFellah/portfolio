@@ -398,7 +398,7 @@ const Portfolio = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10">
+      <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10 pt-20">
         <div className="text-center max-w-4xl mx-auto z-10">
           {/* Terminal Window */}
           <div 
@@ -918,7 +918,7 @@ const Portfolio = () => {
       <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t" style={{ borderColor: currentColors.border }}>
         <div className="max-w-6xl mx-auto text-center">
           <p className="font-mono" style={{ color: currentColors.textMuted }}>
-            © 2024 Slimene Fellah. Built with React & ❤️
+            © 2026 Slimene Fellah. Built with React & ❤️
           </p>
           <p className="font-mono mt-2" style={{ color: currentColors.textMuted }}>
             Developed and maintained by Slimene Fellah — available for freelance work
