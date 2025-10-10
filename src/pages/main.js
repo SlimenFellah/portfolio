@@ -64,19 +64,20 @@ const Portfolio = () => {
   const handleThemeToggle = () => {
     if (themeTransition.isAnimating) return; // Prevent multiple clicks during animation
     
+    // Start animation with 'opening' phase for smooth sliding
     setThemeTransition({ isAnimating: true, phase: 'opening' });
     
-    // Phase 1: Opening animation (800ms)
+    // Phase 1: Overlays slide in and meet (800ms)
     setTimeout(() => {
       setThemeTransition({ isAnimating: true, phase: 'showing' });
-    }, 800);
+    }, 0);
     
-    // Phase 2: Show name after delay (1200ms) 
+    // Phase 2: Show name after overlays meet (1200ms) 
     setTimeout(() => {
       setThemeTransition({ isAnimating: true, phase: 'nameAppearing' });
-      // Switch theme immediately when names appear
+      // Switch theme only after overlay completely covers the page
       toggleTheme();
-    }, 1200);
+    }, 800);
     
     // Phase 3: Hide name before closing (2000ms)
     setTimeout(() => {
@@ -1061,9 +1062,9 @@ const Portfolio = () => {
                   className="text-4xl font-bold font-mono transition-all duration-700 ease-out"
                   style={{ 
                     color: isDark ? colors.dark.text : colors.light.text,
-                    transform: themeTransition.phase === 'nameAppearing' ? 'translate(0, 0)' : 'translate(100vw, -100vh)',
+                    transform: themeTransition.phase === 'nameAppearing' ? 'translateY(0)' : 'translateY(-100vh)',
                     opacity: themeTransition.phase === 'nameAppearing' ? 1 : 0,
-                    animation: themeTransition.phase === 'nameAppearing' ? 'slideFromTopRight 0.8s ease-out' : 'slideToTopRight 0.4s ease-in'
+                    animation: themeTransition.phase === 'nameAppearing' ? 'slideFromTop 0.8s ease-out' : 'slideToTop 0.4s ease-in'
                   }}
                 >
                   Slimene
@@ -1072,9 +1073,9 @@ const Portfolio = () => {
                   className="text-4xl font-bold font-mono transition-all duration-700 ease-out"
                   style={{ 
                     color: isDark ? colors.dark.text : colors.light.text,
-                    transform: themeTransition.phase === 'nameAppearing' ? 'translate(0, 0)' : 'translate(100vw, 100vh)',
+                    transform: themeTransition.phase === 'nameAppearing' ? 'translateY(0)' : 'translateY(100vh)',
                     opacity: themeTransition.phase === 'nameAppearing' ? 1 : 0,
-                    animation: themeTransition.phase === 'nameAppearing' ? 'slideFromBottomRight 0.8s ease-out' : 'slideToBottomRight 0.4s ease-in'
+                    animation: themeTransition.phase === 'nameAppearing' ? 'slideFromBottom 0.8s ease-out' : 'slideToBottom 0.4s ease-in'
                   }}
                 >
                   Fellah
