@@ -341,8 +341,30 @@ const Portfolio = () => {
         <div className="absolute inset-0" style={{
           backgroundImage: `linear-gradient(${currentColors.border} 1px, transparent 1px), linear-gradient(90deg, ${currentColors.border} 1px, transparent 1px)`,
           backgroundSize: '50px 50px',
-          animation: 'grid-move 20s linear infinite'
+          animation: 'grid-move 20s linear infinite',
+          animationDirection: 'alternate',
+          willChange: 'background-position, filter, opacity',
+          filter: isDark ? 'drop-shadow(0 0 0 rgba(255,255,255,0))' : 'drop-shadow(0 0 0 rgba(0,0,0,0))',
+          opacity: isDark ? 0.5 : 0.6,
+          animationName: 'grid-move, grid-glow',
+          animationDuration: '20s, 6s',
+          animationTimingFunction: 'linear, ease-in-out',
+          animationIterationCount: 'infinite, infinite',
+          animationDirection: 'alternate, alternate'
         }}></div>
+      </div>
+
+      {/* Dev Animated Background (theme-aware) */}
+      <div className="dev-bg" aria-hidden="true">
+        <div className="particle p1">{'</>'}</div>
+        <div className="particle p2">{'{}'}</div>
+        <div className="particle p3">{'[]'}</div>
+        <div className="particle p4">{'$'}</div>
+        <div className="particle p5">{'#'}</div>
+        <div className="particle p6">{'</>'}</div>
+        <div className="particle p7">{'{}'}</div>
+        <div className="particle p8">{'[]'}</div>
+        <div className="particle p9">{'#'}</div>
       </div>
 
       {/* Navigation */}

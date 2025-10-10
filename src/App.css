@@ -439,3 +439,67 @@ a:focus {
     opacity: 0;
   }
 }
+/* Dev particles animation */
+@keyframes dev-particle-drift {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0.35; }
+  50% { transform: translate(30px, -40px) rotate(10deg); opacity: 0.6; }
+  100% { transform: translate(0, 0) rotate(0deg); opacity: 0.35; }
+}
+
+.dev-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0; /* behind main content */
+}
+
+.dev-bg .particle {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  animation: dev-particle-drift 10s ease-in-out infinite;
+  animation-direction: alternate;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Background grid movement for subtle motion */
+@keyframes grid-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 80px 80px; }
+}
+
+/* Subtle glow pulse for grid lines */
+@keyframes grid-glow {
+  0% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); opacity: 0.6; }
+  50% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.6)); opacity: 1; }
+  100% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); opacity: 0.6; }
+}
+
+/* Theme-aware colors for particles */
+.dev-bg .particle {
+  background: rgba(0,0,0,0.06);
+  color: #000;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+.dark .dev-bg .particle {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Different speeds and offsets */
+.dev-bg .p1 { left: 90%;  top: 60%;  animation-duration: 12s; }
+.dev-bg .p2 { left: 22%; top: 70%;  animation-duration: 14s; }
+.dev-bg .p3 { left: 25%; top: 35%;  animation-duration: 11s; }
+.dev-bg .p4 { left: 68%; top: 55%;  animation-duration: 13s; }
+.dev-bg .p5 { left: 85%; top: 20%;  animation-duration: 12.5s; }
+.dev-bg .p6 { left: 12%; top: 85%;  animation-duration: 15s; }
+.dev-bg .p7 { left: 80%; top: 80%;  animation-duration: 16s; }
+.dev-bg .p8 { left: 78%; top: 35%;  animation-duration: 10.5s; }
+.dev-bg .p9 { left: 10%; top: 25%;  animation-duration: 12s; }
