@@ -473,7 +473,7 @@ const Portfolio = () => {
                 </span>
               </div>
               <div className="mb-4" style={{ color: currentColors.textSecondary }}>
-                slimene-fellah: full-stack developer & ai enthusiast
+                slimene-fellah: Full-Stack Web & AI Developer | Freelancer
               </div>
               
               <div className="flex items-start mb-2">
@@ -504,7 +504,7 @@ const Portfolio = () => {
             </span>
           </h1>
           
-          <div className="text-xl sm:text-2xl mb-6 font-mono" style={{ color: currentColors.textSecondary }}>
+          <div className="text-lg sm:text-2xl mb-6 font-mono leading-tight overflow-hidden min-h-[3rem] sm:min-h-[4rem]" style={{ color: currentColors.textSecondary }}>
             <Typewriter
               words={[
                 'Computer science student ...',
@@ -515,13 +515,13 @@ const Portfolio = () => {
               loop={0}
               cursor
               cursorStyle="|"
-              typeSpeed={70}
-              deleteSpeed={70}
-              delaySpeed={500}
+              typeSpeed={60}
+              deleteSpeed={60}
+              delaySpeed={300}
             />
           </div>
 
-          <p className="text-lg mb-8 max-w-2xl mx-auto font-mono" style={{ color: currentColors.textMuted }}>
+          <p className="text-base sm:text-lg mb-8 max-w-2xl mx-auto font-mono" style={{ color: currentColors.textMuted }}>
             Building scalable applications with modern technologies and AI integration. 
             Passionate about clean code and innovative solutions.
           </p>
