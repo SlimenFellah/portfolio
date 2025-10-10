@@ -45,6 +45,10 @@ const Portfolio = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState({});
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxProjectIndex, setLightboxProjectIndex] = useState(null);
+  const [themeTransition, setThemeTransition] = useState({
+    isAnimating: false,
+    phase: 'idle' // 'opening', 'showing', 'closing'
+  });
   const email = "fellah.slimene@gmail.com";
 
   // Initialize image indices for all projects
@@ -56,6 +60,39 @@ const Portfolio = () => {
     setCurrentImageIndex(initialIndices);
   }, []);
 
+  // Animated theme toggle function
+  const handleThemeToggle = () => {
+    if (themeTransition.isAnimating) return; // Prevent multiple clicks during animation
+    
+    setThemeTransition({ isAnimating: true, phase: 'opening' });
+    
+    // Phase 1: Opening animation (800ms)
+    setTimeout(() => {
+      setThemeTransition({ isAnimating: true, phase: 'showing' });
+    }, 800);
+    
+    // Phase 2: Show name after delay (1200ms) 
+    setTimeout(() => {
+      setThemeTransition({ isAnimating: true, phase: 'nameAppearing' });
+      // Switch theme immediately when names appear
+      toggleTheme();
+    }, 1200);
+    
+    // Phase 3: Hide name before closing (2000ms)
+    setTimeout(() => {
+      setThemeTransition({ isAnimating: true, phase: 'nameDisappearing' });
+    }, 2000);
+    
+    // Phase 4: Start closing (2400ms)
+    setTimeout(() => {
+      setThemeTransition({ isAnimating: true, phase: 'closing' });
+    }, 2400);
+    
+    // Phase 5: Complete animation (3200ms)
+    setTimeout(() => {
+      setThemeTransition({ isAnimating: false, phase: 'idle' });
+    }, 3200);
+  };
   const nextImage = (projectIndex) => {
     setCurrentImageIndex(prev => ({
       ...prev,
@@ -166,9 +203,9 @@ const Portfolio = () => {
     {
       title: "myGuide - AI Travel Assistant",
       description: "AI-powered web app for personalized travel recommendations in Algeria include features like chatbot using RAG and agents recommendation system.",
-      tech: ["Next.js", "TypeScript", "TailwindCSS", "NestJS", "PostgreSQL", "PyTorch"],
-      status: "Ongoing",
-      github: "https://github.com/orgs/myGuideSlimene/repositories",
+      tech: ["React.js", "TailwindCSS", "Django REST", "PostgreSQL", "Ollama"],
+      // status: "Ongoing",
+      github: "https://github.com/SlimenFellah/myGuide",
       type: "Web app",
       icon: <Globe className="w-6 h-6" />,
       images: [
@@ -200,7 +237,7 @@ const Portfolio = () => {
     {
       title: "PDFinder",
       description: "Comprehensive search engine for scientific articles with microservices architecture",
-      tech: ["React", "FastAPI", "Elasticsearch", "MySQL", "Tailwind CSS"],
+      tech: ["React.js", "FastAPI", "Elasticsearch", "MySQL", "Tailwind CSS"],
       github: "https://github.com/orgs/TpIgl2023/repositories",
       type: "Web App",
       icon: <Database className="w-6 h-6" />,
@@ -211,7 +248,7 @@ const Portfolio = () => {
     {
       title: "Needy App",
       description: "Charity mobile application with complementary web platform for finding essential necessities",
-      tech: ["React", "Express.js", "MongoDB", "Tailwind CSS"],
+      tech: ["React.js", "Express.js", "MongoDB", "Tailwind CSS"],
       link: "https://needy.onrender.com/",
       github: "https://github.com/SlimenFellah/needy",
       type: "Web App",
@@ -258,7 +295,7 @@ const Portfolio = () => {
       title: "3rd Place – InnovDigital Competition",
       date: "Apr 2024",
       description: "Recognized for proposing a smart Electronic Document Management System (EDMS) solution to improve workflow automation and digital archiving efficiency.",
-      icon: <Award className="w-6 h-6" />
+      icon: <Trophy className="w-6 h-6" />
     }
   ];
 
@@ -347,7 +384,7 @@ const Portfolio = () => {
               
               {/* Theme Toggle */}
               <button
-                onClick={toggleTheme}
+                onClick={handleThemeToggle}
                 className="p-2 rounded-lg transition-all duration-300 hover:scale-110"
                 style={{ 
                   backgroundColor: currentColors.accent,
@@ -361,7 +398,7 @@ const Portfolio = () => {
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center space-x-2">
               <button
-                onClick={toggleTheme}
+                onClick={handleThemeToggle}
                 className="p-2 rounded-lg transition-all duration-300"
                 style={{ 
                   backgroundColor: currentColors.accent,
@@ -452,13 +489,9 @@ const Portfolio = () => {
           <div className="mb-8">
             <div className="flex justify-center">
               <img
-                src="/assets/personalPicture.jpg"
+                src={isDark ? '/assets/programmer-dark.jpg' : '/assets/programmer.jpg'}
                 alt="Slimene Fellah"
-                className="w-48 h-48 rounded-full border-4 object-cover transition-all duration-500 shadow-xl"
-                style={{ 
-                  borderColor: currentColors.text,
-                  boxShadow: `0 0 30px ${currentColors.text}20`
-                }}
+                className={`w-48 h-48 rounded-full border-4 object-cover transition-all duration-500 shadow-xl ${isDark ? 'border-white bg-white' : 'border-black'}`}
               />
             </div>
           </div>
@@ -803,8 +836,7 @@ const Portfolio = () => {
                 2023 - Present
               </p>
               <p className="font-mono" style={{ color: currentColors.textMuted }}>
-                Building custom web applications and AI solutions for various clients. 
-                Specializing in React, Node.js, and machine learning integrations.
+                Design and implement AI and data science solutions, including RAG systems, autonomous agents, chatbots, and fine-tuned LLMs. Develop and integrate models and pipelines with LangChain, PyTorch, TensorFlow, and OpenAI APIs to deliver data-driven automation. <br/> Build and maintain full-stack applications (React, Next.js, Node.js, Django, FastAPI) with relational and NoSQL databases, enhancing performance and adding features. Deploy and manage scalable, secure applications across AWS, Azure, and GCP.
               </p>
             </div>
 
@@ -825,8 +857,7 @@ const Portfolio = () => {
                 2021 - Present
               </p>
               <p className="font-mono" style={{ color: currentColors.textMuted }}>
-                Pursuing Computer Science Engineering with focus on AI and software development. 
-                Active in hackathons and competitive programming.
+                Pursuing Computer Science Engineering with focus on Computer Systems and Infrastructure. 
               </p>
             </div>
           </div>
@@ -991,6 +1022,68 @@ const Portfolio = () => {
         </div>
       )}
 
+      {/* Theme Transition Overlay */}
+      {themeTransition.isAnimating && (
+        <div className="fixed inset-0 z-[200] pointer-events-none">
+          {/* Top Half */}
+          <div
+            className="absolute top-0 left-0 w-full transition-all duration-700 ease-in-out"
+            style={{
+              height: '50%',
+              backgroundColor: themeTransition.phase === 'nameAppearing' || themeTransition.phase === 'nameDisappearing' ? 
+                (isDark ? colors.dark.primary : colors.light.primary) : 
+                (isDark ? colors.light.primary : colors.dark.primary),
+              transform: themeTransition.phase === 'opening' ? 'translateY(-100%)' :
+                        (themeTransition.phase === 'showing' || themeTransition.phase === 'nameAppearing' || themeTransition.phase === 'nameDisappearing') ? 'translateY(0)' : 'translateY(-100%)',
+              transformOrigin: 'top'
+            }}
+          />
+          
+          {/* Bottom Half */}
+          <div
+            className="absolute bottom-0 left-0 w-full transition-all duration-700 ease-in-out"
+            style={{
+              height: '50%',
+              backgroundColor: themeTransition.phase === 'nameAppearing' || themeTransition.phase === 'nameDisappearing' ? 
+                (isDark ? colors.dark.primary : colors.light.primary) : 
+                (isDark ? colors.light.primary : colors.dark.primary),
+              transform: themeTransition.phase === 'opening' ? 'translateY(100%)' :
+                        (themeTransition.phase === 'showing' || themeTransition.phase === 'nameAppearing' || themeTransition.phase === 'nameDisappearing') ? 'translateY(0)' : 'translateY(100%)',
+              transformOrigin: 'bottom'
+            }}
+          />
+          
+          {/* Name Animation */}
+          {(themeTransition.phase === 'nameAppearing' || themeTransition.phase === 'nameDisappearing') && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="flex items-center space-x-8">
+                <div 
+                  className="text-4xl font-bold font-mono transition-all duration-700 ease-out"
+                  style={{ 
+                    color: isDark ? colors.dark.text : colors.light.text,
+                    transform: themeTransition.phase === 'nameAppearing' ? 'translate(0, 0)' : 'translate(100vw, -100vh)',
+                    opacity: themeTransition.phase === 'nameAppearing' ? 1 : 0,
+                    animation: themeTransition.phase === 'nameAppearing' ? 'slideFromTopRight 0.8s ease-out' : 'slideToTopRight 0.4s ease-in'
+                  }}
+                >
+                  Slimene
+                </div>
+                <div 
+                  className="text-4xl font-bold font-mono transition-all duration-700 ease-out"
+                  style={{ 
+                    color: isDark ? colors.dark.text : colors.light.text,
+                    transform: themeTransition.phase === 'nameAppearing' ? 'translate(0, 0)' : 'translate(100vw, 100vh)',
+                    opacity: themeTransition.phase === 'nameAppearing' ? 1 : 0,
+                    animation: themeTransition.phase === 'nameAppearing' ? 'slideFromBottomRight 0.8s ease-out' : 'slideToBottomRight 0.4s ease-in'
+                  }}
+                >
+                  Fellah
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
     </div>
   );
