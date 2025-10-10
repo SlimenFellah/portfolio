@@ -306,7 +306,7 @@ const Portfolio = () => {
       icon: <Monitor className="w-5 h-5" />
     },
     "Backend": {
-      items: ["Node.js", "Express.js", "NestJS", "FastAPI", "Flask"],
+      items: ["Node.js","Django","Express.js", "NestJS", "FastAPI", "Flask"],
       icon: <Terminal className="w-5 h-5" />
     },
     "Database": {
@@ -314,7 +314,7 @@ const Portfolio = () => {
       icon: <Database className="w-5 h-5" />
     },
     "AI/ML": {
-      items: ["PyTorch", "scikit-learn", "TensorFlow", "OpenAI API", "Hugging Face"],
+      items: ["PyTorch", "LangChain", "LangGraph", "scikit-learn", "TensorFlow", "OpenAI API", "Hugging Face"],
       icon: <Cpu className="w-5 h-5" />
     },
     "Tools": {
@@ -330,7 +330,7 @@ const Portfolio = () => {
 
   return (
     <div 
-      className="min-h-screen transition-all duration-500"
+      className={`min-h-screen transition-all duration-500 ${isDark ? 'dark' : ''}`}
       style={{ 
         background: currentColors.gradient,
         color: currentColors.text 

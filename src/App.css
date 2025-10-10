@@ -231,13 +231,25 @@ a:focus {
 }
 
 /* Custom selection colors */
+/* Light theme (default) */
 ::selection {
-  background: rgba(255, 255, 255, 0.2);
+  /* Use a visible accent that contrasts on white */
+  background: rgba(0, 120, 255, 0.35);
+  color: inherit;
+}
+::-moz-selection {
+  background: rgba(0, 120, 255, 0.35);
   color: inherit;
 }
 
+/* Dark theme */
 .dark ::selection {
-  background: rgba(0, 0, 0, 0.2);
+  /* Softer light overlay works well on dark backgrounds */
+  background: rgba(255, 255, 255, 0.25);
+  color: inherit;
+}
+.dark ::-moz-selection {
+  background: rgba(255, 255, 255, 0.25);
   color: inherit;
 }
 
